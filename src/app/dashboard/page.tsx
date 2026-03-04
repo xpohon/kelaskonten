@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
@@ -73,12 +73,20 @@ export default function DashboardPage() {
                 Selamat datang, {session?.user?.name}
               </p>
             </div>
-            <Link
-              href="/pesan"
-              className="px-5 py-2.5 bg-neon text-[#0a0a0f] font-semibold text-sm rounded-xl hover:shadow-[0_0_20px_rgba(79,255,176,0.3)] transition-all"
-            >
-              Order Baru
-            </Link>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/pesan"
+                className="px-5 py-2.5 bg-neon text-[#0a0a0f] font-semibold text-sm rounded-xl hover:shadow-[0_0_20px_rgba(79,255,176,0.3)] transition-all"
+              >
+                Order Baru
+              </Link>
+              <button
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className="px-4 py-2.5 text-sm text-muted border border-card-border rounded-xl hover:text-red-400 hover:border-red-400/50 transition-colors"
+              >
+                Logout
+              </button>
+            </div>
           </div>
 
           {/* Stats */}

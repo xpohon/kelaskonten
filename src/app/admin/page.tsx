@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
@@ -71,9 +71,17 @@ export default function AdminDashboard() {
       <Navbar />
       <main className="pt-24 pb-16 min-h-screen">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-2xl sm:text-3xl font-heading font-bold mb-8">
-            Admin Panel
-          </h1>
+          <div className="flex items-center justify-between mb-8">
+            <h1 className="text-2xl sm:text-3xl font-heading font-bold">
+              Admin Panel
+            </h1>
+            <button
+              onClick={() => signOut({ callbackUrl: "/" })}
+              className="px-4 py-2.5 text-sm text-muted border border-card-border rounded-xl hover:text-red-400 hover:border-red-400/50 transition-colors"
+            >
+              Logout
+            </button>
+          </div>
 
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">
