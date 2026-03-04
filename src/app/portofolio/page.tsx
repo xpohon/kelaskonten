@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import PortfolioContent from "@/components/portfolio/PortfolioContent";
 import { prisma } from "@/lib/db";
 
@@ -29,7 +30,13 @@ export default async function PortfolioPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 pb-16">
+      <Breadcrumb
+        items={[
+          { label: "Beranda", href: "/" },
+          { label: "Portofolio" },
+        ]}
+      />
+      <main className="pt-4 pb-16">
         <PortfolioContent portfolios={portfolios} articles={articles} />
       </main>
       <Footer />

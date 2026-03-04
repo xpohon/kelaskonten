@@ -12,20 +12,20 @@ interface AnimatedSectionProps {
 
 const directionVariants: Record<string, Variants> = {
   up: {
-    hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, transform: "translateY(40px)" },
+    visible: { opacity: 1, transform: "translateY(0px)" },
   },
   down: {
-    hidden: { opacity: 0, y: -40 },
-    visible: { opacity: 1, y: 0 },
+    hidden: { opacity: 0, transform: "translateY(-40px)" },
+    visible: { opacity: 1, transform: "translateY(0px)" },
   },
   left: {
-    hidden: { opacity: 0, x: 40 },
-    visible: { opacity: 1, x: 0 },
+    hidden: { opacity: 0, transform: "translateX(40px)" },
+    visible: { opacity: 1, transform: "translateX(0px)" },
   },
   right: {
-    hidden: { opacity: 0, x: -40 },
-    visible: { opacity: 1, x: 0 },
+    hidden: { opacity: 0, transform: "translateX(-40px)" },
+    visible: { opacity: 1, transform: "translateX(0px)" },
   },
   none: {
     hidden: { opacity: 0 },
@@ -47,6 +47,7 @@ export default function AnimatedSection({
       transition={{ duration: 0.6, delay, ease: "easeOut" }}
       variants={directionVariants[direction]}
       className={className}
+      style={{ willChange: "opacity, transform" }}
     >
       {children}
     </motion.div>
@@ -85,10 +86,11 @@ export function StaggerItem({
   return (
     <motion.div
       variants={{
-        hidden: { opacity: 0, y: 30 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+        hidden: { opacity: 0, transform: "translateY(30px)" },
+        visible: { opacity: 1, transform: "translateY(0px)", transition: { duration: 0.5 } },
       }}
       className={className}
+      style={{ willChange: "opacity, transform" }}
     >
       {children}
     </motion.div>

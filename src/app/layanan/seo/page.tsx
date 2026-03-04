@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import SEOContent from "@/components/layanan/SEOContent";
 
 export const metadata: Metadata = {
@@ -122,6 +123,13 @@ export default function SEOPage() {
   return (
     <>
       <Navbar />
+      <Breadcrumb
+        items={[
+          { label: "Beranda", href: "/" },
+          { label: "Layanan" },
+          { label: "SEO" },
+        ]}
+      />
       <main>
         <SEOContent />
       </main>

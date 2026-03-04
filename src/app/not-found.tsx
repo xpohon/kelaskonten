@@ -1,6 +1,12 @@
+import { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+
+export const metadata: Metadata = {
+  title: "Halaman Tidak Ditemukan",
+  robots: { index: false, follow: true },
+};
 
 export default function NotFound() {
   return (

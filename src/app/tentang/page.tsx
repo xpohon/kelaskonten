@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import TentangContent from "@/components/tentang/TentangContent";
 
 export const metadata: Metadata = {
@@ -49,6 +50,12 @@ export default function TentangPage() {
   return (
     <>
       <Navbar />
+      <Breadcrumb
+        items={[
+          { label: "Beranda", href: "/" },
+          { label: "Tentang" },
+        ]}
+      />
       <main>
         <TentangContent />
       </main>

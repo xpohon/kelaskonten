@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import BlogList from "@/components/blog/BlogList";
 import { prisma } from "@/lib/db";
 
@@ -26,7 +27,13 @@ export default async function BlogPage() {
   return (
     <>
       <Navbar />
-      <main className="pt-24 pb-16">
+      <Breadcrumb
+        items={[
+          { label: "Beranda", href: "/" },
+          { label: "Blog" },
+        ]}
+      />
+      <main className="pt-4 pb-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {/* Header */}
           <div className="max-w-3xl mb-12">

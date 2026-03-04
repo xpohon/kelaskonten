@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
+import Breadcrumb from "@/components/ui/Breadcrumb";
 import CopywritingContent from "@/components/layanan/CopywritingContent";
 
 export const metadata: Metadata = {
@@ -127,6 +128,13 @@ export default function CopywritingPage() {
   return (
     <>
       <Navbar />
+      <Breadcrumb
+        items={[
+          { label: "Beranda", href: "/" },
+          { label: "Layanan" },
+          { label: "Copywriting" },
+        ]}
+      />
       <main>
         <CopywritingContent />
       </main>

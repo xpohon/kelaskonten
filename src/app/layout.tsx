@@ -46,7 +46,7 @@ export const metadata: Metadata = {
       "Tingkatkan traffic organik dengan artikel SEO berkualitas tinggi. 300+ klien puas, rata-rata top 10 Google dalam 90 hari.",
     images: [
       {
-        url: "/og-image.png",
+        url: "/og-image.svg",
         width: 1200,
         height: 630,
         alt: "KelasKonten - Jasa SEO & Penulisan Konten Profesional",
@@ -58,7 +58,7 @@ export const metadata: Metadata = {
     title: "Jasa SEO & Penulisan Konten Profesional Indonesia | KelasKonten",
     description:
       "Tingkatkan traffic organik dengan artikel SEO berkualitas tinggi. 300+ klien puas, rata-rata top 10 Google dalam 90 hari.",
-    images: ["/og-image.png"],
+    images: ["/og-image.svg"],
   },
   robots: {
     index: true,
@@ -87,6 +87,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
         <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="alternate" type="application/rss+xml" href="/feed.xml" title="Blog KelasKonten" />
       </head>
       <body className="antialiased bg-background text-foreground min-h-screen">
         <SessionProvider>

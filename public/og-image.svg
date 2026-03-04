@@ -1,0 +1,137 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <defs>
+    <!-- Background gradient glow - green -->
+    <radialGradient id="glowGreen" cx="25%" cy="40%" r="45%" fx="25%" fy="40%">
+      <stop offset="0%" stop-color="#4fffb0" stop-opacity="0.12"/>
+      <stop offset="50%" stop-color="#4fffb0" stop-opacity="0.04"/>
+      <stop offset="100%" stop-color="#4fffb0" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Background gradient glow - purple -->
+    <radialGradient id="glowPurple" cx="75%" cy="60%" r="45%" fx="75%" fy="60%">
+      <stop offset="0%" stop-color="#7c3aed" stop-opacity="0.15"/>
+      <stop offset="50%" stop-color="#7c3aed" stop-opacity="0.05"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Monogram gradient -->
+    <linearGradient id="monoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4fffb0"/>
+      <stop offset="100%" stop-color="#7c3aed"/>
+    </linearGradient>
+    <!-- Accent bar gradient -->
+    <linearGradient id="accentGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#7c3aed"/>
+      <stop offset="100%" stop-color="#4fffb0"/>
+    </linearGradient>
+    <!-- Logo glow filter -->
+    <filter id="logoGlow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="8" result="blur"/>
+      <feColorMatrix in="blur" type="matrix"
+        values="0 0 0 0 0.31
+                0 0 0 0 1
+                0 0 0 0 0.69
+                0 0 0 0.4 0" result="glowColor"/>
+      <feMerge>
+        <feMergeNode in="glowColor"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <!-- Subtle top highlight -->
+    <linearGradient id="topEdge" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#4fffb0" stop-opacity="0"/>
+      <stop offset="30%" stop-color="#4fffb0" stop-opacity="0.3"/>
+      <stop offset="70%" stop-color="#7c3aed" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#7c3aed" stop-opacity="0"/>
+    </linearGradient>
+    <!-- Noise texture (subtle) -->
+    <filter id="noise">
+      <feTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/>
+      <feColorMatrix type="saturate" values="0"/>
+      <feComponentTransfer>
+        <feFuncA type="linear" slope="0.03"/>
+      </feComponentTransfer>
+      <feBlend in="SourceGraphic" mode="overlay"/>
+    </filter>
+    <!-- Grid pattern for tech feel -->
+    <pattern id="grid" width="60" height="60" patternUnits="userSpaceOnUse">
+      <path d="M 60 0 L 0 0 0 60" fill="none" stroke="#ffffff" stroke-width="0.3" stroke-opacity="0.04"/>
+    </pattern>
+  </defs>
+
+  <!-- Base background -->
+  <rect width="1200" height="630" fill="#0a0a0f"/>
+
+  <!-- Grid overlay -->
+  <rect width="1200" height="630" fill="url(#grid)"/>
+
+  <!-- Gradient glow effects -->
+  <rect width="1200" height="630" fill="url(#glowGreen)"/>
+  <rect width="1200" height="630" fill="url(#glowPurple)"/>
+
+  <!-- Top edge highlight line -->
+  <rect x="0" y="0" width="1200" height="1.5" fill="url(#topEdge)"/>
+
+  <!-- Noise texture overlay -->
+  <rect width="1200" height="630" filter="url(#noise)" opacity="0.5"/>
+
+  <!-- === MONOGRAM K LOGO === -->
+  <g transform="translate(600, 220)" filter="url(#logoGlow)">
+    <!-- K letter - left vertical stroke -->
+    <rect x="-52" y="-65" width="18" height="130" rx="4" fill="url(#monoGrad)"/>
+
+    <!-- K letter - upper diagonal -->
+    <polygon points="-34,-10 28,-65 46,-52 -20,0" fill="#4fffb0" rx="3"/>
+    <rect x="-38" y="-68" width="88" height="16" rx="4" fill="#4fffb0" transform="rotate(-40, -34, -10)"/>
+
+    <!-- K letter - lower diagonal -->
+    <rect x="-38" y="-8" width="88" height="16" rx="4" fill="#7c3aed" transform="rotate(40, -34, 10)"/>
+
+    <!-- Accent bar - horizontal slash across the K -->
+    <rect x="-60" y="-6" width="120" height="5" rx="2.5" fill="url(#accentGrad)" opacity="0.9"/>
+
+    <!-- Small decorative dot -->
+    <circle cx="55" cy="-55" r="5" fill="#4fffb0" opacity="0.7"/>
+    <circle cx="55" cy="55" r="5" fill="#7c3aed" opacity="0.7"/>
+  </g>
+
+  <!-- === BRAND NAME === -->
+  <text x="600" y="360" text-anchor="middle"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+    font-size="72" font-weight="700" letter-spacing="2" fill="#ffffff">
+    KelasKonten
+  </text>
+
+  <!-- Underline accent beneath brand name -->
+  <rect x="430" y="378" width="340" height="3" rx="1.5" fill="url(#accentGrad)" opacity="0.6"/>
+
+  <!-- === TAGLINE === -->
+  <text x="600" y="430" text-anchor="middle"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+    font-size="24" font-weight="400" letter-spacing="1" fill="#71717a">
+    Jasa SEO &amp; Penulisan Konten Profesional Indonesia
+  </text>
+
+  <!-- === BOTTOM DECORATIVE ELEMENTS === -->
+  <!-- Bottom edge highlight -->
+  <rect x="0" y="628.5" width="1200" height="1.5" fill="url(#topEdge)"/>
+
+  <!-- Decorative corner marks -->
+  <!-- Top-left -->
+  <line x1="40" y1="40" x2="80" y2="40" stroke="#4fffb0" stroke-width="1.5" stroke-opacity="0.3"/>
+  <line x1="40" y1="40" x2="40" y2="80" stroke="#4fffb0" stroke-width="1.5" stroke-opacity="0.3"/>
+  <!-- Top-right -->
+  <line x1="1160" y1="40" x2="1120" y2="40" stroke="#7c3aed" stroke-width="1.5" stroke-opacity="0.3"/>
+  <line x1="1160" y1="40" x2="1160" y2="80" stroke="#7c3aed" stroke-width="1.5" stroke-opacity="0.3"/>
+  <!-- Bottom-left -->
+  <line x1="40" y1="590" x2="80" y2="590" stroke="#7c3aed" stroke-width="1.5" stroke-opacity="0.3"/>
+  <line x1="40" y1="590" x2="40" y2="550" stroke="#7c3aed" stroke-width="1.5" stroke-opacity="0.3"/>
+  <!-- Bottom-right -->
+  <line x1="1160" y1="590" x2="1120" y2="590" stroke="#4fffb0" stroke-width="1.5" stroke-opacity="0.3"/>
+  <line x1="1160" y1="590" x2="1160" y2="550" stroke="#4fffb0" stroke-width="1.5" stroke-opacity="0.3"/>
+
+  <!-- URL at bottom -->
+  <text x="600" y="575" text-anchor="middle"
+    font-family="-apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif"
+    font-size="16" font-weight="500" letter-spacing="3" fill="#71717a" opacity="0.6">
+    kelaskonten.com
+  </text>
+</svg>
