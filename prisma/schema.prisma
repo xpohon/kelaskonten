@@ -1,0 +1,163 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String
+  email         String    @unique
+  password      String?
+  phone         String?
+  role          String    @default("CLIENT")
+  avatar        String?
+  emailVerified DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  orders   Order[]
+  messages Message[]
+  accounts Account[]
+  sessions Session[]
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
+
+model Order {
+  id             String   @id @default(cuid())
+  userId         String
+  serviceType    String
+  packageName    String
+  price          Int
+  status         String   @default("PENDING")
+  brief          String?
+  targetAudience String?
+  references     String?
+  deadline       DateTime?
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id])
+  payment      Payment?
+  messages     Message[]
+  deliverables Deliverable[]
+}
+
+model Payment {
+  id              String    @id @default(cuid())
+  orderId         String    @unique
+  midtransOrderId String    @unique
+  amount          Int
+  method          String?
+  status          String    @default("PENDING")
+  snapToken       String?
+  paidAt          DateTime?
+  createdAt       DateTime  @default(now())
+
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+model Message {
+  id        String   @id @default(cuid())
+  orderId   String
+  senderId  String
+  content   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  order  Order @relation(fields: [orderId], references: [id])
+  sender User  @relation(fields: [senderId], references: [id])
+}
+
+model Deliverable {
+  id         String   @id @default(cuid())
+  orderId    String
+  fileName   String
+  fileUrl    String
+  uploadedAt DateTime @default(now())
+
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+model Article {
+  id             String    @id @default(cuid())
+  title          String
+  slug           String    @unique
+  content        String
+  excerpt        String
+  category       String
+  coverImage     String?
+  readTime       Int       @default(5)
+  views          Int       @default(0)
+  author         String    @default("Tim KontenPro")
+  publishedAt    DateTime  @default(now())
+  seoTitle       String?
+  seoDescription String?
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+}
+
+model Portfolio {
+  id          String  @id @default(cuid())
+  type        String
+  platform    String?
+  title       String
+  description String
+  imageUrl    String?
+  caption     String?
+  metrics     String?
+  category    String
+  order       Int     @default(0)
+  createdAt   DateTime @default(now())
+}
+
+model Testimonial {
+  id          String  @id @default(cuid())
+  name        String
+  role        String
+  company     String
+  avatar      String?
+  content     String
+  rating      Float   @default(5)
+  serviceType String
+  result      String?
+  isVisible   Boolean @default(true)
+  createdAt   DateTime @default(now())
+}
