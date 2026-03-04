@@ -73,7 +73,7 @@ const values = [
 ];
 
 const milestones = [
-  { year: "2020", title: "Didirikan", desc: "KontenPro lahir dari frustrasi: mengapa konten berkualitas begitu susah ditemukan di Indonesia?" },
+  { year: "2020", title: "Didirikan", desc: "KelasKonten lahir dari frustrasi: mengapa konten berkualitas begitu susah ditemukan di Indonesia?" },
   { year: "2021", title: "50 Klien Pertama", desc: "Dari mulut ke mulut, kami tumbuh organik. Bukti bahwa kualitas berbicara lebih keras dari iklan." },
   { year: "2022", title: "200 Artikel/Bulan", desc: "Tim berkembang menjadi 15 orang. Produksi konten meningkat tanpa mengorbankan kualitas." },
   { year: "2023", title: "Top 10 Agency", desc: "Diakui sebagai salah satu content agency terbaik di Indonesia oleh beberapa platform review." },
@@ -105,7 +105,7 @@ export default function TentangContent() {
         <Container size="md">
           <AnimatedSection direction="up">
             <div className="text-center">
-              <Badge variant="neon" size="md">Tentang KontenPro</Badge>
+              <Badge variant="neon" size="md">Tentang KelasKonten</Badge>
 
               <h1 className="mt-6 text-4xl sm:text-5xl lg:text-6xl font-bold font-heading leading-tight">
                 Tim di Balik <span className="gradient-text">Konten Berkualitas</span>
@@ -116,7 +116,7 @@ export default function TentangContent() {
           <AnimatedSection delay={0.2}>
             <div className="mt-12 max-w-3xl mx-auto space-y-6 text-lg text-muted leading-relaxed">
               <p>
-                KontenPro dimulai dari frustrasi yang sama dengan yang Anda rasakan: <span className="text-foreground font-medium">konten yang tidak menghasilkan apa-apa.</span>
+                KelasKonten dimulai dari frustrasi yang sama dengan yang Anda rasakan: <span className="text-foreground font-medium">konten yang tidak menghasilkan apa-apa.</span>
               </p>
               <p>
                 Founder kami, Andi Nugroho, menghabiskan 5 tahun bekerja di agency digital besar. Tahu apa yang dia temukan?
@@ -127,7 +127,7 @@ export default function TentangContent() {
                 Klien diminta sabar menunggu hasil yang tidak pernah datang.
               </p>
               <p className="text-foreground font-medium">
-                Itu yang memotivasi lahirnya KontenPro di tahun 2020.
+                Itu yang memotivasi lahirnya KelasKonten di tahun 2020.
               </p>
               <p>
                 Misi kami sederhana: membuktikan bahwa konten berkualitas bisa menghasilkan <span className="text-neon">ROI yang nyata dan terukur</span>.

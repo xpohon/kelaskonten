@@ -86,7 +86,7 @@ export default function BlogList({ articles }: { articles: Article[] }) {
               <div className="h-full rounded-2xl bg-card-bg border border-card-border hover:border-neon/30 overflow-hidden transition-all duration-300">
                 <div className={`h-44 bg-gradient-to-br ${categoryGradients[article.category] || "from-gray-500/20 to-gray-600/20"} flex items-center justify-center relative`}>
                   <span className="text-2xl font-heading font-bold text-white/15">
-                    KontenPro
+                    KelasKonten
                   </span>
                 </div>
                 <div className="p-5">

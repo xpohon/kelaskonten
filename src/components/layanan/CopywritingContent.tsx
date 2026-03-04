@@ -142,7 +142,7 @@ const faqs = [
     a: "Copywriting yang baik terbukti meningkatkan konversi. Rata-rata klien kami melihat peningkatan engagement 40-60% dan peningkatan konversi 20-35% setelah menggunakan layanan copywriting kami. Namun, hasil bervariasi tergantung industri dan produk.",
   },
   {
-    q: "Apakah ada contoh portfolio copywriting KontenPro?",
+    q: "Apakah ada contoh portfolio copywriting KelasKonten?",
     a: "Tentu! Anda bisa melihat sampel karya kami di halaman portofolio. Kami juga bisa mengirimkan contoh spesifik sesuai industri Anda saat konsultasi awal — cukup hubungi kami via WhatsApp.",
   },
 ];
@@ -255,7 +255,7 @@ export default function CopywritingContent() {
                           <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
                         </svg>
                       </div>
-                      <span className="text-sm font-bold text-neon uppercase tracking-wider">Sesudah — KontenPro</span>
+                      <span className="text-sm font-bold text-neon uppercase tracking-wider">Sesudah — KelasKonten</span>
                     </div>
 
                     <div className="bg-surface rounded-xl p-4 mb-4">
@@ -361,8 +361,8 @@ export default function CopywritingContent() {
                     K
                   </div>
                   <div>
-                    <p className="text-sm font-medium text-foreground">KontenPro Store</p>
-                    <p className="text-xs text-muted">no-reply@kontenpro.id</p>
+                    <p className="text-sm font-medium text-foreground">KelasKonten Store</p>
+                    <p className="text-xs text-muted">no-reply@kelaskonten.id</p>
                   </div>
                 </div>
                 <div className="space-y-1">

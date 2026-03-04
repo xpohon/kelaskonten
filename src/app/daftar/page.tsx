@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
 
@@ -53,10 +54,11 @@ export default function RegisterPage() {
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <Link href="/" className="inline-block">
+          <Link href="/" className="inline-flex items-center gap-2 justify-center">
+            <Image src="/logo.svg" alt="KelasKonten" width={56} height={56} />
             <span className="text-3xl font-heading font-bold">
-              <span className="text-foreground">Konten</span>
-              <span className="text-neon">Pro</span>
+              <span className="text-foreground">Kelas</span>
+              <span className="text-neon">Konten</span>
             </span>
           </Link>
           <p className="mt-2 text-muted">Buat akun baru</p>

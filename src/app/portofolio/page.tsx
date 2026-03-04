@@ -7,9 +7,9 @@ import { prisma } from "@/lib/db";
 export const metadata: Metadata = {
   title: "Portofolio — Hasil Kerja Nyata Kami",
   description:
-    "Lihat showcase konten sosial media, artikel SEO, dan copywriting yang telah kami buat. Bukti nyata kemampuan tim KontenPro.",
+    "Lihat showcase konten sosial media, artikel SEO, dan copywriting yang telah kami buat. Bukti nyata kemampuan tim KelasKonten.",
   openGraph: {
-    title: "Portofolio — Hasil Kerja Nyata Kami | KontenPro",
+    title: "Portofolio — Hasil Kerja Nyata Kami | KelasKonten",
     description:
       "Lihat showcase konten sosial media, artikel SEO, dan copywriting yang telah kami buat.",
   },
@@ -40,8 +40,8 @@ export default async function PortfolioPage() {
             "@context": "https://schema.org",
             "@type": "BreadcrumbList",
             itemListElement: [
-              { "@type": "ListItem", position: 1, name: "Beranda", item: "https://kontenpro.id" },
-              { "@type": "ListItem", position: 2, name: "Portofolio", item: "https://kontenpro.id/portofolio" },
+              { "@type": "ListItem", position: 1, name: "Beranda", item: "https://kelaskonten.id" },
+              { "@type": "ListItem", position: 2, name: "Portofolio", item: "https://kelaskonten.id/portofolio" },
             ],
           }),
         }}

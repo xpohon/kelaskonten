@@ -47,7 +47,7 @@ export default function InstagramPreview() {
     <section className="py-20 sm:py-28">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <SectionHeader
-          badge="@kontenproid"
+          badge="@kelaskontenid"
           title="Konten Sosial Media yang Kami Buat"
           description="Ini bukan mockup biasa — ini contoh nyata konten yang kami produksi untuk klien. Follow kami untuk tips marketing gratis setiap hari."
         />

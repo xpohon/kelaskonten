@@ -22,7 +22,7 @@ const beforeAfter = {
     ],
   },
   after: {
-    label: "Artikel KontenPro",
+    label: "Artikel KelasKonten",
     items: [
       "Judul memikat dengan keyword target",
       "Riset mendalam dari 10+ sumber terpercaya",
@@ -228,7 +228,7 @@ export default function PenulisanKontenContent() {
         <Container>
           <SectionHeader
             badge="Perbedaan Nyata"
-            title="Artikel Biasa vs. Artikel KontenPro"
+            title="Artikel Biasa vs. Artikel KelasKonten"
             description="Konten bukan sekadar kata-kata. Ini perbandingan langsung antara artikel asal-asalan dan artikel yang kami tulis."
           />
 

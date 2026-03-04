@@ -10,7 +10,7 @@ const faqs = [
     a: "Berdasarkan data klien kami, artikel SEO-optimized rata-rata mulai masuk top 10 Google dalam 60-90 hari. Beberapa keyword low-competition bahkan bisa ranking dalam 2-3 minggu. Yang penting adalah konsistensi — semakin banyak konten berkualitas yang Anda publish, semakin cepat domain authority Anda naik.",
   },
   {
-    q: "Apa bedanya KontenPro dengan jasa konten lain?",
+    q: "Apa bedanya KelasKonten dengan jasa konten lain?",
     a: "Kami tidak sekadar menulis — kami meriset. Setiap artikel dimulai dari riset keyword mendalam, analisis kompetitor, dan pemahaman target audiens Anda. Plus, kami memberikan laporan performa konten bulanan sehingga Anda bisa melihat ROI langsung dari investasi konten Anda.",
   },
   {

@@ -33,8 +33,8 @@ async function main() {
 
   const admin = await prisma.user.create({
     data: {
-      name: 'Admin KontenPro',
-      email: 'admin@kontenpro.id',
+      name: 'Admin KelasKonten',
+      email: 'admin@kelaskonten.id',
       password: adminPassword,
       role: 'ADMIN',
     },
@@ -44,7 +44,7 @@ async function main() {
   const demoUser = await prisma.user.create({
     data: {
       name: 'Demo User',
-      email: 'demo@kontenpro.id',
+      email: 'demo@kelaskonten.id',
       password: demoPassword,
       role: 'CLIENT',
       phone: '081234567890',
@@ -63,7 +63,7 @@ async function main() {
       role: 'CEO',
       company: 'PT Nusantara Digital',
       content:
-        'Awalnya saya skeptis dengan jasa SEO, karena sudah pernah ditipu agensi lain. Tapi KontenPro beda. Mereka kasih laporan transparan setiap minggu dan hasilnya nyata. Traffic organik website kami naik 245% dalam 4 bulan, dan yang paling penting, lead generation naik drastis. Tim mereka sangat profesional dan responsif.',
+        'Awalnya saya skeptis dengan jasa SEO, karena sudah pernah ditipu agensi lain. Tapi KelasKonten beda. Mereka kasih laporan transparan setiap minggu dan hasilnya nyata. Traffic organik website kami naik 245% dalam 4 bulan, dan yang paling penting, lead generation naik drastis. Tim mereka sangat profesional dan responsif.',
       rating: 5.0,
       serviceType: 'SEO',
       result: 'Traffic organik naik 245% dalam 4 bulan',
@@ -73,7 +73,7 @@ async function main() {
       role: 'Marketing Manager',
       company: 'Tokobaju.id',
       content:
-        'Kami butuh 30 artikel produk dalam waktu 2 minggu untuk launching toko online baru. KontenPro deliver tepat waktu dengan kualitas yang konsisten di semua artikel. Setiap artikel sudah SEO-friendly dan langsung bisa dipublish. Mereka memang spesialisnya konten yang berkualitas tinggi dan efisien.',
+        'Kami butuh 30 artikel produk dalam waktu 2 minggu untuk launching toko online baru. KelasKonten deliver tepat waktu dengan kualitas yang konsisten di semua artikel. Setiap artikel sudah SEO-friendly dan langsung bisa dipublish. Mereka memang spesialisnya konten yang berkualitas tinggi dan efisien.',
       rating: 5.0,
       serviceType: 'CONTENT',
       result: '30 artikel produk selesai dalam 2 minggu',
@@ -83,7 +83,7 @@ async function main() {
       role: 'Founder',
       company: 'KopiKita Indonesia',
       content:
-        'Copy landing page dari KontenPro langsung naikkan conversion rate toko online kami dari 1.2% ke 3.8%. Mereka paham betul cara menulis yang persuasif tapi tidak terkesan memaksa. Setiap kata dipilih dengan hati-hati untuk target market kami. Investasi yang sangat worth it untuk bisnis kami.',
+        'Copy landing page dari KelasKonten langsung naikkan conversion rate toko online kami dari 1.2% ke 3.8%. Mereka paham betul cara menulis yang persuasif tapi tidak terkesan memaksa. Setiap kata dipilih dengan hati-hati untuk target market kami. Investasi yang sangat worth it untuk bisnis kami.',
       rating: 5.0,
       serviceType: 'COPYWRITING',
       result: 'Conversion rate naik dari 1.2% ke 3.8%',
@@ -93,7 +93,7 @@ async function main() {
       role: 'Founder',
       company: 'Hijab Aura',
       content:
-        'Konten Instagram kami dulunya asal posting tanpa strategi. Setelah pakai jasa KontenPro, engagement rate naik 156% dan followers bertambah 2.847 secara organik dalam 3 bulan. Setiap konten dirancang dengan strategi yang matang dan sesuai brand identity kami.',
+        'Konten Instagram kami dulunya asal posting tanpa strategi. Setelah pakai jasa KelasKonten, engagement rate naik 156% dan followers bertambah 2.847 secara organik dalam 3 bulan. Setiap konten dirancang dengan strategi yang matang dan sesuai brand identity kami.',
       rating: 4.8,
       serviceType: 'CONTENT',
       result: 'Engagement naik 156%, +2.847 followers organik dalam 3 bulan',
@@ -103,7 +103,7 @@ async function main() {
       role: 'Digital Marketing Lead',
       company: 'PT Solusi Properti',
       content:
-        'Sudah 6 bulan kerja sama dengan KontenPro untuk SEO dan content marketing. Website kami sekarang ranking di halaman 1 Google untuk 15 keyword utama yang kami target. Leads dari organic search naik 180% dan cost per lead turun signifikan dibandingkan saat kami hanya mengandalkan Google Ads.',
+        'Sudah 6 bulan kerja sama dengan KelasKonten untuk SEO dan content marketing. Website kami sekarang ranking di halaman 1 Google untuk 15 keyword utama yang kami target. Leads dari organic search naik 180% dan cost per lead turun signifikan dibandingkan saat kami hanya mengandalkan Google Ads.',
       rating: 5.0,
       serviceType: 'SEO',
       result: 'Ranking halaman 1 untuk 15 keyword, leads naik 180%',
@@ -113,7 +113,7 @@ async function main() {
       role: 'Brand Manager',
       company: 'NaturSkin Beauty',
       content:
-        'KontenPro menulis semua copy untuk kampanye launching produk baru kami, mulai dari email sequence, landing page, sampai caption social media. Hasilnya? Penjualan di hari pertama launch melebihi target 340%. Copy-nya emosional, relatable, dan sangat memahami target audience perempuan Indonesia.',
+        'KelasKonten menulis semua copy untuk kampanye launching produk baru kami, mulai dari email sequence, landing page, sampai caption social media. Hasilnya? Penjualan di hari pertama launch melebihi target 340%. Copy-nya emosional, relatable, dan sangat memahami target audience perempuan Indonesia.',
       rating: 4.9,
       serviceType: 'COPYWRITING',
       result: 'Penjualan hari pertama launch melebihi target 340%',
@@ -123,7 +123,7 @@ async function main() {
       role: 'COO',
       company: 'EduTech Nusantara',
       content:
-        'Kami membutuhkan 50 artikel edukatif untuk platform e-learning kami. KontenPro tidak hanya menulis konten yang informatif, tapi juga memastikan setiap artikel ter-optimasi untuk SEO. Dalam 6 bulan, traffic blog kami naik 320% dan banyak artikel yang masuk featured snippet Google.',
+        'Kami membutuhkan 50 artikel edukatif untuk platform e-learning kami. KelasKonten tidak hanya menulis konten yang informatif, tapi juga memastikan setiap artikel ter-optimasi untuk SEO. Dalam 6 bulan, traffic blog kami naik 320% dan banyak artikel yang masuk featured snippet Google.',
       rating: 4.7,
       serviceType: 'CONTENT',
       result: 'Traffic blog naik 320%, multiple featured snippets',
@@ -133,7 +133,7 @@ async function main() {
       role: 'Owner',
       company: 'Warung Digital Agency',
       content:
-        'Sebagai agensi kecil, kami sering overflow project konten. KontenPro jadi partner white-label terpercaya kami. Kualitas tulisannya selalu konsisten, deadline selalu ditepati, dan mereka sangat mudah diajak komunikasi. Klien-klien kami pun puas dengan hasil akhirnya. Sangat direkomendasikan!',
+        'Sebagai agensi kecil, kami sering overflow project konten. KelasKonten jadi partner white-label terpercaya kami. Kualitas tulisannya selalu konsisten, deadline selalu ditepati, dan mereka sangat mudah diajak komunikasi. Klien-klien kami pun puas dengan hasil akhirnya. Sangat direkomendasikan!',
       rating: 4.5,
       serviceType: 'CONTENT',
       result: 'Partner white-label terpercaya untuk 20+ project',
@@ -158,7 +158,7 @@ async function main() {
       title: '3 Alasan Website Anda Tidak Muncul di Google',
       description: 'Carousel post tentang kesalahan SEO paling umum yang menghambat ranking website di mesin pencari.',
       caption:
-        'Sudah bikin website bagus tapi traffic-nya nol? \u{1F624}\n\nIni 3 kesalahan SEO yang paling sering kami temukan:\n\n1\uFE0F\u20E3 Tidak ada riset keyword sebelum menulis konten\n2\uFE0F\u20E3 Meta description kosong atau duplikat\n3\uFE0F\u20E3 Website lambat di mobile (>3 detik = Google tidak suka)\n\nYang ketiga sering diabaikan padahal pengaruhnya besar banget ke ranking.\n\nKalau website kamu punya salah satu dari ini, komen \'AUDIT\' dan kami kirimkan checklist SEO gratis untuk kamu! \u{1F447}\n\n#SEO #DigitalMarketing #TipsWebsite #KontenPro #MarketingIndonesia',
+        'Sudah bikin website bagus tapi traffic-nya nol? \u{1F624}\n\nIni 3 kesalahan SEO yang paling sering kami temukan:\n\n1\uFE0F\u20E3 Tidak ada riset keyword sebelum menulis konten\n2\uFE0F\u20E3 Meta description kosong atau duplikat\n3\uFE0F\u20E3 Website lambat di mobile (>3 detik = Google tidak suka)\n\nYang ketiga sering diabaikan padahal pengaruhnya besar banget ke ranking.\n\nKalau website kamu punya salah satu dari ini, komen \'AUDIT\' dan kami kirimkan checklist SEO gratis untuk kamu! \u{1F447}\n\n#SEO #DigitalMarketing #TipsWebsite #KelasKonten #MarketingIndonesia',
       category: 'SEO',
       order: 1,
     },
@@ -178,7 +178,7 @@ async function main() {
       title: 'Testimoni Klien: Hijab Aura',
       description: 'Testimonial card dari Kak Riana, founder brand hijab yang merasakan peningkatan engagement signifikan.',
       caption:
-        '\u{1F4AC} "Dulu konten kami asal posting, sekarang setiap post punya strategi dan tujuan yang jelas." \u2014 Kak Riana, Founder @hijabaura\n\nHasil setelah 3 bulan kerja sama:\n\u2705 Engagement rate naik 156%\n\u2705 Followers bertambah +2.847 secara organik\n\u2705 Konten lebih konsisten dan on-brand\n\nYang bikin beda? Kami tidak hanya bikin konten yang cantik, tapi konten yang BEKERJA.\n\nSetiap post dirancang berdasarkan data audience, tren platform, dan goals bisnis klien.\n\nMau hasil serupa untuk brand kamu? DM kami atau klik link di bio! \u{1F4F2}\n\n#TestimoniKlien #ContentMarketing #SocialMediaMarketing #KontenPro #HasilNyata',
+        '\u{1F4AC} "Dulu konten kami asal posting, sekarang setiap post punya strategi dan tujuan yang jelas." \u2014 Kak Riana, Founder @hijabaura\n\nHasil setelah 3 bulan kerja sama:\n\u2705 Engagement rate naik 156%\n\u2705 Followers bertambah +2.847 secara organik\n\u2705 Konten lebih konsisten dan on-brand\n\nYang bikin beda? Kami tidak hanya bikin konten yang cantik, tapi konten yang BEKERJA.\n\nSetiap post dirancang berdasarkan data audience, tren platform, dan goals bisnis klien.\n\nMau hasil serupa untuk brand kamu? DM kami atau klik link di bio! \u{1F4F2}\n\n#TestimoniKlien #ContentMarketing #SocialMediaMarketing #KelasKonten #HasilNyata',
       category: 'SOCIAL_PROOF',
       order: 3,
     },
@@ -188,7 +188,7 @@ async function main() {
       title: 'Apa Itu Keyword Intent dan Kenapa Penting?',
       description: 'Penjelasan tentang search intent dan bagaimana memilih keyword berdasarkan niat pencarian pengguna.',
       caption:
-        'Banyak yang riset keyword cuma lihat volume pencarian. Padahal, yang lebih penting adalah INTENT-nya \u{1F50D}\n\n4 jenis keyword intent:\n\n\u{1F4D8} Informational \u2014 "apa itu SEO"\nUser mau belajar. Cocok untuk artikel blog.\n\n\u{1F4D7} Navigational \u2014 "KontenPro login"\nUser mau ke website tertentu.\n\n\u{1F4D9} Commercial \u2014 "jasa SEO terbaik"\nUser sedang membandingkan. Cocok untuk landing page.\n\n\u{1F4D5} Transactional \u2014 "beli paket SEO"\nUser siap beli. Ini keyword paling valuable.\n\nKesalahan umum: menargetkan keyword transactional dengan konten informational. Atau sebaliknya.\n\nPastikan konten kamu MATCH dengan intent keyword-nya \u{1F3AF}\n\n#SEOTips #KeywordResearch #DigitalMarketing #KontenPro #SEOIndonesia',
+        'Banyak yang riset keyword cuma lihat volume pencarian. Padahal, yang lebih penting adalah INTENT-nya \u{1F50D}\n\n4 jenis keyword intent:\n\n\u{1F4D8} Informational \u2014 "apa itu SEO"\nUser mau belajar. Cocok untuk artikel blog.\n\n\u{1F4D7} Navigational \u2014 "KelasKonten login"\nUser mau ke website tertentu.\n\n\u{1F4D9} Commercial \u2014 "jasa SEO terbaik"\nUser sedang membandingkan. Cocok untuk landing page.\n\n\u{1F4D5} Transactional \u2014 "beli paket SEO"\nUser siap beli. Ini keyword paling valuable.\n\nKesalahan umum: menargetkan keyword transactional dengan konten informational. Atau sebaliknya.\n\nPastikan konten kamu MATCH dengan intent keyword-nya \u{1F3AF}\n\n#SEOTips #KeywordResearch #DigitalMarketing #KelasKonten #SEOIndonesia',
       category: 'SEO',
       order: 4,
     },
@@ -198,7 +198,7 @@ async function main() {
       title: '5 Checklist SEO On-Page yang Sering Terlewat',
       description: 'Checklist praktis untuk memastikan setiap halaman website sudah dioptimasi SEO on-page dengan benar.',
       caption:
-        'Sudah publish artikel tapi tidak ranking? Coba cek 5 hal ini \u{2705}\n\n1\uFE0F\u20E3 Title tag mengandung keyword utama (di awal lebih baik)\n2\uFE0F\u20E3 URL pendek dan deskriptif \u2014 hindari /post?id=12345\n3\uFE0F\u20E3 Heading structure yang benar (H1 > H2 > H3)\n4\uFE0F\u20E3 Image alt text yang relevan, bukan "IMG_001.jpg"\n5\uFE0F\u20E3 Internal link ke artikel terkait (minimal 2-3 link)\n\nBonus: Pastikan meta description unik dan mengandung CTA \u{1F4DD}\n\nYang mana yang paling sering kamu lewatkan? Tulis di komentar! \u{1F447}\n\n#SEOOnPage #TipsSEO #WebsiteOptimization #KontenPro #DigitalMarketing',
+        'Sudah publish artikel tapi tidak ranking? Coba cek 5 hal ini \u{2705}\n\n1\uFE0F\u20E3 Title tag mengandung keyword utama (di awal lebih baik)\n2\uFE0F\u20E3 URL pendek dan deskriptif \u2014 hindari /post?id=12345\n3\uFE0F\u20E3 Heading structure yang benar (H1 > H2 > H3)\n4\uFE0F\u20E3 Image alt text yang relevan, bukan "IMG_001.jpg"\n5\uFE0F\u20E3 Internal link ke artikel terkait (minimal 2-3 link)\n\nBonus: Pastikan meta description unik dan mengandung CTA \u{1F4DD}\n\nYang mana yang paling sering kamu lewatkan? Tulis di komentar! \u{1F447}\n\n#SEOOnPage #TipsSEO #WebsiteOptimization #KelasKonten #DigitalMarketing',
       category: 'SEO',
       order: 5,
     },
@@ -208,7 +208,7 @@ async function main() {
       title: 'Cara Menulis Paragraf Pembuka yang Bikin Orang Lanjut Baca',
       description: 'Tips menulis opening paragraph artikel yang engaging dan membuat pembaca betah di halaman website.',
       caption:
-        '80% pembaca cuma baca paragraf pertama. Kalau opening-nya lemah, bye bye \u{1F44B}\n\nIni 4 formula opening yang terbukti works:\n\n\u{1F3AF} Mulai dengan PERTANYAAN\n"Pernah menulis artikel 2000 kata tapi tidak ada yang baca?"\n\n\u{1F4CA} Mulai dengan DATA\n"73% website bisnis di Indonesia tidak punya blog aktif."\n\n\u{1F624} Mulai dengan MASALAH\n"Website sudah ada tapi leads masih nol. Familiar?"\n\n\u{1F4A1} Mulai dengan PERNYATAAN KONTROVERSIAL\n"SEO tanpa konten berkualitas itu buang-buang uang."\n\nIntinya: 3 kalimat pertama harus bikin pembaca merasa \u201CIni gue banget, harus baca sampai habis.\u201D\n\nMau tips writing lainnya? Follow @kontenpro.id \u{1F4DA}\n\n#ContentWriting #TipsMenulis #BloggingTips #KontenPro #PenulisKonten',
+        '80% pembaca cuma baca paragraf pertama. Kalau opening-nya lemah, bye bye \u{1F44B}\n\nIni 4 formula opening yang terbukti works:\n\n\u{1F3AF} Mulai dengan PERTANYAAN\n"Pernah menulis artikel 2000 kata tapi tidak ada yang baca?"\n\n\u{1F4CA} Mulai dengan DATA\n"73% website bisnis di Indonesia tidak punya blog aktif."\n\n\u{1F624} Mulai dengan MASALAH\n"Website sudah ada tapi leads masih nol. Familiar?"\n\n\u{1F4A1} Mulai dengan PERNYATAAN KONTROVERSIAL\n"SEO tanpa konten berkualitas itu buang-buang uang."\n\nIntinya: 3 kalimat pertama harus bikin pembaca merasa \u201CIni gue banget, harus baca sampai habis.\u201D\n\nMau tips writing lainnya? Follow @kelaskonten.id \u{1F4DA}\n\n#ContentWriting #TipsMenulis #BloggingTips #KelasKonten #PenulisKonten',
       category: 'CONTENT',
       order: 6,
     },
@@ -218,7 +218,7 @@ async function main() {
       title: 'Struktur Artikel yang Disukai Google DAN Pembaca',
       description: 'Panduan struktur konten yang balance antara SEO-friendly dan nyaman dibaca oleh manusia.',
       caption:
-        'Artikel yang bagus bukan yang panjang. Tapi yang TERSTRUKTUR dengan baik \u{1F3D7}\uFE0F\n\nIni template struktur yang kami pakai untuk klien-klien kami:\n\n\u{1F4CC} Judul (H1)\nMengandung keyword utama + power word\n\n\u{1F4CC} Intro (150-200 kata)\nHook + masalah + promise artikel ini\n\n\u{1F4CC} Subheading (H2)\nSatu topik per section, keyword di H2\n\n\u{1F4CC} Body per section\nParagraf pendek (2-3 kalimat), bullet points, contoh nyata\n\n\u{1F4CC} Kesimpulan\nRangkum poin utama + CTA yang jelas\n\nDengan struktur ini, rata-rata time on page artikel klien kami naik 40% \u{1F4C8}\n\nBagian mana yang paling susah buat kamu? Share di komentar! \u{1F447}\n\n#ArtikelSEO #StrukturKonten #ContentStrategy #KontenPro #BlogWriting',
+        'Artikel yang bagus bukan yang panjang. Tapi yang TERSTRUKTUR dengan baik \u{1F3D7}\uFE0F\n\nIni template struktur yang kami pakai untuk klien-klien kami:\n\n\u{1F4CC} Judul (H1)\nMengandung keyword utama + power word\n\n\u{1F4CC} Intro (150-200 kata)\nHook + masalah + promise artikel ini\n\n\u{1F4CC} Subheading (H2)\nSatu topik per section, keyword di H2\n\n\u{1F4CC} Body per section\nParagraf pendek (2-3 kalimat), bullet points, contoh nyata\n\n\u{1F4CC} Kesimpulan\nRangkum poin utama + CTA yang jelas\n\nDengan struktur ini, rata-rata time on page artikel klien kami naik 40% \u{1F4C8}\n\nBagian mana yang paling susah buat kamu? Share di komentar! \u{1F447}\n\n#ArtikelSEO #StrukturKonten #ContentStrategy #KelasKonten #BlogWriting',
       category: 'CONTENT',
       order: 7,
     },
@@ -226,19 +226,19 @@ async function main() {
       type: 'INSTAGRAM',
       platform: 'instagram',
       title: 'Behind The Scenes: Proses Riset Keyword Kami',
-      description: 'Sneak peek ke proses riset keyword tim KontenPro sebelum memulai project konten untuk klien.',
+      description: 'Sneak peek ke proses riset keyword tim KelasKonten sebelum memulai project konten untuk klien.',
       caption:
-        'Pernah penasaran gimana proses di balik layar sebelum kami mulai menulis?\n\nIni step-by-step riset keyword kami \u{1F50D}\n\nStep 1: Pahami bisnis & target audience klien\nKami wawancara klien untuk paham unique selling point dan customer persona mereka.\n\nStep 2: Seed keyword brainstorming\nMulai dari keyword broad, lalu breakdown ke spesifik.\n\nStep 3: Analisis kompetitor\nCek keyword apa yang mendatangkan traffic ke kompetitor klien.\n\nStep 4: Mapping keyword intent\nKelompokkan keyword berdasarkan informational, commercial, transactional.\n\nStep 5: Prioritas berdasarkan opportunity\nVolume x Difficulty x Relevance = Priority score\n\nHasil akhir: Keyword map yang jadi fondasi seluruh strategi konten \u{1F4CB}\n\nProses ini kami lakukan SEBELUM menulis satu kata pun. Itulah bedanya konten asal-asalan vs konten yang strategis \u{1F4AA}\n\n#BehindTheScenes #KeywordResearch #SEOProcess #KontenPro #ContentStrategy',
+        'Pernah penasaran gimana proses di balik layar sebelum kami mulai menulis?\n\nIni step-by-step riset keyword kami \u{1F50D}\n\nStep 1: Pahami bisnis & target audience klien\nKami wawancara klien untuk paham unique selling point dan customer persona mereka.\n\nStep 2: Seed keyword brainstorming\nMulai dari keyword broad, lalu breakdown ke spesifik.\n\nStep 3: Analisis kompetitor\nCek keyword apa yang mendatangkan traffic ke kompetitor klien.\n\nStep 4: Mapping keyword intent\nKelompokkan keyword berdasarkan informational, commercial, transactional.\n\nStep 5: Prioritas berdasarkan opportunity\nVolume x Difficulty x Relevance = Priority score\n\nHasil akhir: Keyword map yang jadi fondasi seluruh strategi konten \u{1F4CB}\n\nProses ini kami lakukan SEBELUM menulis satu kata pun. Itulah bedanya konten asal-asalan vs konten yang strategis \u{1F4AA}\n\n#BehindTheScenes #KeywordResearch #SEOProcess #KelasKonten #ContentStrategy',
       category: 'BTS',
       order: 8,
     },
     {
       type: 'INSTAGRAM',
       platform: 'instagram',
-      title: 'A Day in The Life: Content Writer KontenPro',
-      description: 'Gambaran sehari-hari tim content writer KontenPro dalam mengerjakan project klien.',
+      title: 'A Day in The Life: Content Writer KelasKonten',
+      description: 'Gambaran sehari-hari tim content writer KelasKonten dalam mengerjakan project klien.',
       caption:
-        'Gimana sih sehari-hari jadi content writer di KontenPro? \u{2615}\n\n08.00 \u2014 Cek brief project hari ini\nBaca ulang brief klien, pastikan paham tone of voice dan goals-nya.\n\n09.00 \u2014 Research time\nBaca minimal 5 artikel top-ranking di keyword target. Catat angle yang belum dibahas.\n\n10.00 \u2014 Outline dulu, baru menulis\nOutline = peta. Tanpa peta, tulisan jadi kemana-mana.\n\n11.00-14.00 \u2014 Deep writing mode\nNotifikasi off, fokus menulis. Target 1.500-2.000 kata per sesi.\n\n14.00 \u2014 Break & recharge\nIstirahat penting biar tulisan tidak terasa robotik.\n\n15.00 \u2014 Self-editing\nCek flow, potong kalimat yang bertele-tele, pastikan setiap paragraf punya nilai.\n\n16.00 \u2014 Peer review\nTim kami selalu double-check setiap konten sebelum kirim ke klien.\n\nItu yang bikin kualitas kami konsisten \u2014 prosesnya terstruktur dan tidak pernah buru-buru \u{1F4AF}\n\n#DayInTheLife #ContentWriter #BehindTheScenes #KontenPro #WriterLife',
+        'Gimana sih sehari-hari jadi content writer di KelasKonten? \u{2615}\n\n08.00 \u2014 Cek brief project hari ini\nBaca ulang brief klien, pastikan paham tone of voice dan goals-nya.\n\n09.00 \u2014 Research time\nBaca minimal 5 artikel top-ranking di keyword target. Catat angle yang belum dibahas.\n\n10.00 \u2014 Outline dulu, baru menulis\nOutline = peta. Tanpa peta, tulisan jadi kemana-mana.\n\n11.00-14.00 \u2014 Deep writing mode\nNotifikasi off, fokus menulis. Target 1.500-2.000 kata per sesi.\n\n14.00 \u2014 Break & recharge\nIstirahat penting biar tulisan tidak terasa robotik.\n\n15.00 \u2014 Self-editing\nCek flow, potong kalimat yang bertele-tele, pastikan setiap paragraf punya nilai.\n\n16.00 \u2014 Peer review\nTim kami selalu double-check setiap konten sebelum kirim ke klien.\n\nItu yang bikin kualitas kami konsisten \u2014 prosesnya terstruktur dan tidak pernah buru-buru \u{1F4AF}\n\n#DayInTheLife #ContentWriter #BehindTheScenes #KelasKonten #WriterLife',
       category: 'BTS',
       order: 9,
     },
@@ -293,8 +293,8 @@ async function main() {
         'Pelajari 7 strategi meningkatkan traffic website yang terbukti berhasil di 2025, dari SEO on-page hingga content marketing untuk bisnis Indonesia.',
       category: 'SEO',
       readTime: 8,
-      author: 'Tim KontenPro',
-      seoTitle: '7 Cara Meningkatkan Traffic Website [Terbukti 2025] | KontenPro',
+      author: 'Tim KelasKonten',
+      seoTitle: '7 Cara Meningkatkan Traffic Website [Terbukti 2025] | KelasKonten',
       seoDescription:
         'Pelajari 7 strategi meningkatkan traffic website yang terbukti berhasil. Dari SEO on-page hingga content marketing, panduan lengkap untuk bisnis Indonesia.',
       content: `<h2>Mengapa Traffic Website Itu Penting untuk Bisnis Anda?</h2>
@@ -350,7 +350,7 @@ async function main() {
 
 <h2>Kesimpulan</h2>
 <p>Meningkatkan traffic website bukan sprint, melainkan marathon. Ketujuh strategi di atas telah terbukti efektif untuk berbagai jenis bisnis di Indonesia. Kuncinya adalah konsistensi dan kesabaran. Mulailah dari fondasi SEO on-page yang kuat, bangun konten berkualitas secara konsisten, dan terus optimasi berdasarkan data.</p>
-<p>Jika Anda membutuhkan bantuan profesional untuk mengimplementasikan strategi-strategi ini, tim kami di KontenPro siap membantu. Kami telah membantu puluhan bisnis Indonesia meningkatkan traffic organik mereka secara signifikan. <strong><a href="/layanan/seo">Konsultasikan kebutuhan SEO bisnis Anda bersama kami</a></strong> dan dapatkan audit website gratis.</p>`,
+<p>Jika Anda membutuhkan bantuan profesional untuk mengimplementasikan strategi-strategi ini, tim kami di KelasKonten siap membantu. Kami telah membantu puluhan bisnis Indonesia meningkatkan traffic organik mereka secara signifikan. <strong><a href="/layanan/seo">Konsultasikan kebutuhan SEO bisnis Anda bersama kami</a></strong> dan dapatkan audit website gratis.</p>`,
     },
     {
       title: 'Panduan Lengkap Menulis Artikel SEO yang Naik ke Halaman 1 Google',
@@ -359,13 +359,13 @@ async function main() {
         'Panduan step-by-step menulis artikel SEO yang ranking di halaman 1 Google. Dari riset keyword hingga optimasi konten, pelajari teknik content writer profesional.',
       category: 'Penulisan Konten',
       readTime: 10,
-      author: 'Tim KontenPro',
+      author: 'Tim KelasKonten',
       seoTitle: 'Cara Menulis Artikel SEO yang Ranking di Google [Panduan 2025]',
       seoDescription:
         'Panduan step-by-step menulis artikel SEO yang naik ke halaman 1 Google. Riset keyword, struktur konten, dan tips dari content writer profesional.',
       content: `<h2>Menulis Artikel SEO Bukan Sekadar Menjejalkan Keyword</h2>
 <p>Ada kesalahpahaman besar tentang penulisan artikel SEO. Banyak yang mengira menulis artikel SEO berarti menjejalkan keyword sebanyak-banyaknya ke dalam tulisan. Pendekatan ini tidak hanya membuat konten tidak enak dibaca, tapi juga bisa membuat website Anda terkena penalti dari Google karena dianggap melakukan keyword stuffing.</p>
-<p>Menulis artikel SEO yang sesungguhnya adalah seni menggabungkan konten yang bermanfaat bagi pembaca manusia dengan sinyal-sinyal yang membantu mesin pencari memahami dan meranking konten tersebut. Dalam panduan ini, kami akan membagikan proses lengkap yang kami gunakan di KontenPro untuk menulis artikel yang konsisten naik ke halaman 1 Google.</p>
+<p>Menulis artikel SEO yang sesungguhnya adalah seni menggabungkan konten yang bermanfaat bagi pembaca manusia dengan sinyal-sinyal yang membantu mesin pencari memahami dan meranking konten tersebut. Dalam panduan ini, kami akan membagikan proses lengkap yang kami gunakan di KelasKonten untuk menulis artikel yang konsisten naik ke halaman 1 Google.</p>
 
 <h2>Step 1: Riset Keyword yang Mendalam</h2>
 <p>Sebelum menulis satu kata pun, Anda harus tahu apa yang dicari oleh target audience Anda. Riset keyword adalah langkah paling krusial yang menentukan apakah artikel Anda punya peluang untuk mendapatkan traffic atau tidak.</p>
@@ -428,7 +428,7 @@ async function main() {
 <h2>Kesimpulan: Konsistensi adalah Kunci</h2>
 <p>Menulis artikel SEO yang ranking di Google bukan rocket science, tapi membutuhkan proses yang terstruktur dan konsisten. Mulai dari riset keyword yang tepat, buat struktur yang solid, tulis konten yang benar-benar bermanfaat, dan terus optimasi berdasarkan data performa.</p>
 <p>Yang membedakan website yang sukses dengan yang tidak bukan hanya kualitas per artikel, tapi konsistensi dalam memproduksi dan mengoptimasi konten dari waktu ke waktu.</p>
-<p>Butuh bantuan untuk membuat konten berkualitas yang konsisten ranking di Google? <strong><a href="/layanan/content-writing">Tim content writer profesional KontenPro siap membantu Anda</a></strong>. Kami telah menulis ribuan artikel yang ranking di halaman 1 untuk berbagai industri di Indonesia.</p>`,
+<p>Butuh bantuan untuk membuat konten berkualitas yang konsisten ranking di Google? <strong><a href="/layanan/content-writing">Tim content writer profesional KelasKonten siap membantu Anda</a></strong>. Kami telah menulis ribuan artikel yang ranking di halaman 1 untuk berbagai industri di Indonesia.</p>`,
     },
     {
       title: 'Copywriting: Seni Menulis yang Mengubah Pembaca Jadi Pembeli',
@@ -437,7 +437,7 @@ async function main() {
         'Pelajari apa itu copywriting, formula AIDA dan PAS, contoh copy yang menjual, dan tips praktis dari copywriter profesional Indonesia.',
       category: 'Copywriting',
       readTime: 9,
-      author: 'Tim KontenPro',
+      author: 'Tim KelasKonten',
       seoTitle: 'Copywriting Adalah: Panduan Lengkap Menulis Copy yang Menjual',
       seoDescription:
         'Pelajari apa itu copywriting, formula AIDA & PAS, contoh copy yang menjual, dan tips praktis dari copywriter profesional Indonesia.',
@@ -515,7 +515,7 @@ async function main() {
 
 <h2>Kesimpulan</h2>
 <p>Copywriting adalah skill yang bisa dipelajari, tapi membutuhkan latihan dan pemahaman mendalam tentang psikologi manusia. Dengan menguasai formula seperti AIDA dan PAS, memahami perbedaan antara fitur dan benefit, serta terus mengasah kemampuan melalui practice dan testing, Anda bisa menulis copy yang benar-benar mengkonversi.</p>
-<p>Namun jika Anda tidak punya waktu atau resource untuk mengembangkan skill copywriting in-house, kami bisa membantu. <strong><a href="/layanan/copywriting">Tim copywriter KontenPro berpengalaman menulis copy yang menjual</a></strong> untuk berbagai industri di Indonesia. Dari landing page, email sequence, hingga copy iklan \u2014 kami pastikan setiap kata bekerja untuk bisnis Anda.</p>`,
+<p>Namun jika Anda tidak punya waktu atau resource untuk mengembangkan skill copywriting in-house, kami bisa membantu. <strong><a href="/layanan/copywriting">Tim copywriter KelasKonten berpengalaman menulis copy yang menjual</a></strong> untuk berbagai industri di Indonesia. Dari landing page, email sequence, hingga copy iklan \u2014 kami pastikan setiap kata bekerja untuk bisnis Anda.</p>`,
     },
     {
       title: 'Strategi Konten Media Sosial yang Terbukti Menambah Followers dan Penjualan',
@@ -524,7 +524,7 @@ async function main() {
         'Strategi konten media sosial yang terbukti meningkatkan followers dan penjualan. Pelajari content pillar, calendar, format per platform, dan tips engagement.',
       category: 'Media Sosial',
       readTime: 9,
-      author: 'Tim KontenPro',
+      author: 'Tim KelasKonten',
       seoTitle: 'Strategi Konten Media Sosial untuk Bisnis [Panduan 2025]',
       seoDescription:
         'Strategi konten media sosial yang terbukti meningkatkan followers dan penjualan. Content pillar, calendar, format per platform, dan tips engagement.',
@@ -601,7 +601,7 @@ async function main() {
 
 <h2>Kesimpulan</h2>
 <p>Strategi konten media sosial yang efektif bukan tentang viral sekali lalu hilang. Ini tentang membangun kehadiran yang konsisten, memberikan nilai kepada audiens, dan secara strategis mengarahkan mereka ke tujuan bisnis Anda. Dengan content pillar yang jelas, calendar yang terstruktur, format yang tepat untuk setiap platform, dan optimasi berbasis data, Anda bisa mengubah media sosial dari sekadar pajangan online menjadi mesin pertumbuhan bisnis yang sesungguhnya.</p>
-<p>Butuh bantuan membuat dan mengelola konten media sosial yang strategis? <strong><a href="/layanan/social-media">Tim konten KontenPro siap menjadi partner media sosial bisnis Anda</a></strong>. Dari strategi, pembuatan konten, hingga analisis performa, kami handle semuanya agar Anda bisa fokus menjalankan bisnis.</p>`,
+<p>Butuh bantuan membuat dan mengelola konten media sosial yang strategis? <strong><a href="/layanan/social-media">Tim konten KelasKonten siap menjadi partner media sosial bisnis Anda</a></strong>. Dari strategi, pembuatan konten, hingga analisis performa, kami handle semuanya agar Anda bisa fokus menjalankan bisnis.</p>`,
     },
     {
       title: 'Cara Memilih Jasa SEO Indonesia yang Tidak Akan Merugikan Bisnis Anda',
@@ -610,7 +610,7 @@ async function main() {
         'Panduan memilih jasa SEO Indonesia yang terpercaya. Kenali red flags, pertanyaan wajib, dan cara bedakan SEO profesional vs abal-abal.',
       category: 'SEO',
       readTime: 8,
-      author: 'Tim KontenPro',
+      author: 'Tim KelasKonten',
       seoTitle: 'Cara Memilih Jasa SEO Indonesia Terpercaya [Panduan Anti Rugi]',
       seoDescription:
         'Panduan memilih jasa SEO Indonesia yang terpercaya. Kenali red flags, pertanyaan wajib, dan cara bedakan SEO profesional vs abal-abal.',
@@ -674,7 +674,7 @@ async function main() {
 <h2>Kesimpulan: Investasi SEO yang Tepat Memberikan Return yang Luar Biasa</h2>
 <p>Memilih jasa SEO adalah keputusan bisnis yang penting. Jasa SEO yang tepat bisa menjadi game changer untuk pertumbuhan bisnis Anda. Sebaliknya, jasa SEO yang salah bisa membuang uang Anda dan bahkan merusak reputasi online bisnis Anda.</p>
 <p>Gunakan panduan ini untuk mengevaluasi calon agensi SEO Anda. Jangan tergoda oleh janji-janji manis dan harga murah. Fokus pada track record, transparansi, dan metodologi yang mereka gunakan.</p>
-<p>Ingin berdiskusi tentang kebutuhan SEO bisnis Anda dengan tim profesional? <strong><a href="/kontak">Hubungi KontenPro untuk konsultasi gratis</a></strong>. Kami akan melakukan quick audit website Anda dan memberikan rekomendasi strategi SEO yang sesuai dengan goals bisnis Anda. Tanpa komitmen, tanpa tekanan.</p>`,
+<p>Ingin berdiskusi tentang kebutuhan SEO bisnis Anda dengan tim profesional? <strong><a href="/kontak">Hubungi KelasKonten untuk konsultasi gratis</a></strong>. Kami akan melakukan quick audit website Anda dan memberikan rekomendasi strategi SEO yang sesuai dengan goals bisnis Anda. Tanpa komitmen, tanpa tekanan.</p>`,
     },
   ];
 

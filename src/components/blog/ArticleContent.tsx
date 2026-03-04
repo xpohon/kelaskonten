@@ -206,7 +206,7 @@ export default function ArticleContent({
                   Butuh bantuan dengan {article.category.toLowerCase()}?
                 </h3>
                 <p className="text-muted text-sm mb-4">
-                  Tim KontenPro siap membantu bisnis Anda dengan strategi{" "}
+                  Tim KelasKonten siap membantu bisnis Anda dengan strategi{" "}
                   {article.category.toLowerCase()} yang terbukti berhasil. Konsultasi
                   pertama gratis!
                 </p>

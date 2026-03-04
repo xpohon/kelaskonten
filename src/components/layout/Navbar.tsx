@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
@@ -43,9 +44,10 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-16 sm:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
+            <Image src="/logo.svg" alt="KelasKonten" width={32} height={32} />
             <span className="text-2xl font-heading font-bold">
-              <span className="text-foreground">Konten</span>
-              <span className="text-neon">Pro</span>
+              <span className="text-foreground">Kelas</span>
+              <span className="text-neon">Konten</span>
             </span>
           </Link>
 

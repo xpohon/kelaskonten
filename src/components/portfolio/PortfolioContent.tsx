@@ -85,7 +85,7 @@ export default function PortfolioContent({
       {/* Instagram Section */}
       <section className="mb-24">
         <SectionHeader
-          badge="@kontenproid"
+          badge="@kelaskontenid"
           title="Instagram Feed"
           description="Konten Instagram yang kami buat untuk klien dan akun sendiri."
           align="left"
@@ -186,7 +186,7 @@ export default function PortfolioContent({
                     KP
                   </div>
                   <div>
-                    <p className="text-sm font-semibold">KontenPro</p>
+                    <p className="text-sm font-semibold">KelasKonten</p>
                     <p className="text-xs text-muted">
                       Jasa SEO & Konten Profesional
                     </p>
@@ -212,7 +212,7 @@ export default function PortfolioContent({
         <SectionHeader
           badge="Artikel"
           title="Performa Artikel Kami"
-          description="Data nyata dari blog KontenPro sendiri."
+          description="Data nyata dari blog KelasKonten sendiri."
           align="left"
         />
         <div className="grid md:grid-cols-3 gap-6">

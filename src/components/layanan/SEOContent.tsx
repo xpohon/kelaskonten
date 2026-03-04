@@ -161,7 +161,7 @@ const faqs = [
     a: "Tentu! Semua paket mendapatkan laporan berkala. Paket Basic mendapat laporan bulanan, paket Pro mendapat laporan mingguan, dan paket Enterprise mendapat akses dashboard real-time plus meeting bulanan.",
   },
   {
-    q: "Apakah KontenPro menggunakan teknik SEO black-hat?",
+    q: "Apakah KelasKonten menggunakan teknik SEO black-hat?",
     a: "Tidak. Kami hanya menggunakan teknik SEO white-hat yang sesuai dengan Google Webmaster Guidelines. Teknik black-hat mungkin memberikan hasil cepat tapi berisiko terkena penalti Google yang bisa merusak website Anda secara permanen.",
   },
   {

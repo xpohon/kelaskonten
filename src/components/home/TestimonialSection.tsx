@@ -10,7 +10,7 @@ const testimonials = [
     role: "Founder",
     company: "Riana Hijab",
     content:
-      "Awalnya skeptis sama jasa konten. Tapi setelah 3 bulan pakai KontenPro, traffic organik naik 245% dan followers Instagram nambah hampir 3.000 orang secara organik. Sekarang saya bisa fokus ke produk, konten sudah beres.",
+      "Awalnya skeptis sama jasa konten. Tapi setelah 3 bulan pakai KelasKonten, traffic organik naik 245% dan followers Instagram nambah hampir 3.000 orang secara organik. Sekarang saya bisa fokus ke produk, konten sudah beres.",
     rating: 5,
     result: "Traffic +245%",
     avatar: "RP",
@@ -20,7 +20,7 @@ const testimonials = [
     role: "Marketing Manager",
     company: "AutoParts Indonesia",
     content:
-      "SEO itu investasi jangka panjang, dan KontenPro membuktikannya. Dalam 4 bulan, 12 keyword utama kami masuk halaman 1 Google. Lead dari organik search naik 3x lipat. Worth every rupiah.",
+      "SEO itu investasi jangka panjang, dan KelasKonten membuktikannya. Dalam 4 bulan, 12 keyword utama kami masuk halaman 1 Google. Lead dari organik search naik 3x lipat. Worth every rupiah.",
     rating: 5,
     result: "12 keyword page 1",
     avatar: "BH",
@@ -40,7 +40,7 @@ const testimonials = [
     role: "Founder",
     company: "EdukasiOnline",
     content:
-      "Kami sudah coba 3 jasa konten sebelumnya. KontenPro yang pertama kali benar-benar deliver hasil. Artikel mereka konsisten ranking dan traffic blog kami naik 5x dalam 6 bulan. Kualitas penulisannya top.",
+      "Kami sudah coba 3 jasa konten sebelumnya. KelasKonten yang pertama kali benar-benar deliver hasil. Artikel mereka konsisten ranking dan traffic blog kami naik 5x dalam 6 bulan. Kualitas penulisannya top.",
     rating: 5,
     result: "Traffic 5x dalam 6 bulan",
     avatar: "AP",

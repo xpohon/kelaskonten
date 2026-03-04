@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const footerLinks = {
   layanan: [
@@ -28,10 +29,11 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10">
           {/* Brand */}
           <div className="lg:col-span-2">
-            <Link href="/" className="inline-block">
+            <Link href="/" className="inline-flex items-center gap-2">
+              <Image src="/logo.svg" alt="KelasKonten" width={32} height={32} />
               <span className="text-2xl font-heading font-bold">
-                <span className="text-foreground">Konten</span>
-                <span className="text-neon">Pro</span>
+                <span className="text-foreground">Kelas</span>
+                <span className="text-neon">Konten</span>
               </span>
             </Link>
             <p className="mt-4 text-muted text-sm leading-relaxed max-w-sm">
@@ -41,10 +43,10 @@ export default function Footer() {
             </p>
             <div className="flex items-center gap-4 mt-6">
               <a
-                href="https://instagram.com/kontenproid"
+                href="https://instagram.com/kelaskontenid"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Instagram KontenPro"
+                aria-label="Instagram KelasKonten"
                 className="w-10 h-10 flex items-center justify-center rounded-lg bg-card-bg border border-card-border text-muted hover:text-neon hover:border-neon transition-colors"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -52,10 +54,10 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://linkedin.com/company/kontenpro"
+                href="https://linkedin.com/company/kelaskonten"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="LinkedIn KontenPro"
+                aria-label="LinkedIn KelasKonten"
                 className="w-10 h-10 flex items-center justify-center rounded-lg bg-card-bg border border-card-border text-muted hover:text-neon hover:border-neon transition-colors"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -63,10 +65,10 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://twitter.com/kontenproid"
+                href="https://twitter.com/kelaskontenid"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="Twitter KontenPro"
+                aria-label="Twitter KelasKonten"
                 className="w-10 h-10 flex items-center justify-center rounded-lg bg-card-bg border border-card-border text-muted hover:text-neon hover:border-neon transition-colors"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -77,7 +79,7 @@ export default function Footer() {
                 href="https://wa.me/6281234567890"
                 target="_blank"
                 rel="noopener noreferrer"
-                aria-label="WhatsApp KontenPro"
+                aria-label="WhatsApp KelasKonten"
                 className="w-10 h-10 flex items-center justify-center rounded-lg bg-card-bg border border-card-border text-muted hover:text-neon hover:border-neon transition-colors"
               >
                 <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -148,7 +150,7 @@ export default function Footer() {
         {/* Bottom */}
         <div className="mt-12 pt-8 border-t border-card-border flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-sm text-muted">
-            &copy; {new Date().getFullYear()} KontenPro. Semua hak dilindungi.
+            &copy; {new Date().getFullYear()} KelasKonten. Semua hak dilindungi.
           </p>
           <div className="flex items-center gap-6">
             <Link href="/kebijakan-privasi" className="text-sm text-muted hover:text-foreground transition-colors">

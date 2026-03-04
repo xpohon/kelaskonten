@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" fill="none">
+  <!-- Option 2: Elegant monogram "K" with gradient bar -->
+  <!-- Background rounded square -->
+  <rect x="4" y="4" width="32" height="32" rx="8" fill="#4fffb0" opacity="0.1"/>
+  <!-- Stylized "K" letterform -->
+  <path d="M14 10V30" stroke="#4fffb0" stroke-width="3" stroke-linecap="round"/>
+  <path d="M14 20L24 10" stroke="#4fffb0" stroke-width="3" stroke-linecap="round"/>
+  <path d="M18 18L26 30" stroke="#4fffb0" stroke-width="3" stroke-linecap="round"/>
+  <!-- Accent bar -->
+  <rect x="28" y="10" width="3" height="20" rx="1.5" fill="#7c3aed" opacity="0.6"/>
+</svg>

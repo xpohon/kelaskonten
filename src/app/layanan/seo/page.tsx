@@ -4,11 +4,11 @@ import Footer from "@/components/layout/Footer";
 import SEOContent from "@/components/layanan/SEOContent";
 
 export const metadata: Metadata = {
-  title: "Jasa SEO Profesional Indonesia — Ranking Halaman 1 Google | KontenPro",
+  title: "Jasa SEO Profesional Indonesia — Ranking Halaman 1 Google | KelasKonten",
   description:
     "Tingkatkan traffic organik bisnis Anda dengan jasa SEO profesional. Audit menyeluruh, backlink berkualitas, rata-rata top 10 dalam 90 hari.",
   openGraph: {
-    title: "Jasa SEO Profesional Indonesia — Ranking Halaman 1 Google | KontenPro",
+    title: "Jasa SEO Profesional Indonesia — Ranking Halaman 1 Google | KelasKonten",
     description:
       "Tingkatkan traffic organik bisnis Anda dengan jasa SEO profesional. Audit menyeluruh, backlink berkualitas, rata-rata top 10 dalam 90 hari.",
   },
@@ -19,9 +19,9 @@ const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Beranda", item: "https://kontenpro.id" },
-    { "@type": "ListItem", position: 2, name: "Layanan", item: "https://kontenpro.id/layanan" },
-    { "@type": "ListItem", position: 3, name: "SEO", item: "https://kontenpro.id/layanan/seo" },
+    { "@type": "ListItem", position: 1, name: "Beranda", item: "https://kelaskonten.id" },
+    { "@type": "ListItem", position: 2, name: "Layanan", item: "https://kelaskonten.id/layanan" },
+    { "@type": "ListItem", position: 3, name: "SEO", item: "https://kelaskonten.id/layanan/seo" },
   ],
 };
 
@@ -33,8 +33,8 @@ const serviceSchema = {
     "Layanan SEO profesional untuk meningkatkan ranking website di Google. Termasuk audit teknikal, riset keyword, on-page optimization, link building, dan monitoring.",
   provider: {
     "@type": "Organization",
-    name: "KontenPro",
-    url: "https://kontenpro.id",
+    name: "KelasKonten",
+    url: "https://kelaskonten.id",
   },
   areaServed: { "@type": "Country", name: "Indonesia" },
   serviceType: "SEO Services",
@@ -101,7 +101,7 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      name: "Apakah KontenPro menggunakan teknik SEO black-hat?",
+      name: "Apakah KelasKonten menggunakan teknik SEO black-hat?",
       acceptedAnswer: {
         "@type": "Answer",
         text: "Tidak. Kami hanya menggunakan teknik SEO white-hat yang sesuai dengan Google Webmaster Guidelines. Teknik black-hat mungkin memberikan hasil cepat tapi berisiko terkena penalti Google yang bisa merusak website Anda secara permanen.",

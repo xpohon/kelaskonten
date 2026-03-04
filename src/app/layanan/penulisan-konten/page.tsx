@@ -4,11 +4,11 @@ import Footer from "@/components/layout/Footer";
 import PenulisanKontenContent from "@/components/layanan/PenulisanKontenContent";
 
 export const metadata: Metadata = {
-  title: "Jasa Penulisan Artikel & Konten SEO Profesional | KontenPro",
+  title: "Jasa Penulisan Artikel & Konten SEO Profesional | KelasKonten",
   description:
     "Artikel SEO-friendly berkualitas tinggi yang ranking di Google. 300+ klien puas, riset keyword mendalam, revisi sampai puas.",
   openGraph: {
-    title: "Jasa Penulisan Artikel & Konten SEO Profesional | KontenPro",
+    title: "Jasa Penulisan Artikel & Konten SEO Profesional | KelasKonten",
     description:
       "Artikel SEO-friendly berkualitas tinggi yang ranking di Google. 300+ klien puas, riset keyword mendalam, revisi sampai puas.",
   },
@@ -19,13 +19,13 @@ const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Beranda", item: "https://kontenpro.id" },
-    { "@type": "ListItem", position: 2, name: "Layanan", item: "https://kontenpro.id/layanan" },
+    { "@type": "ListItem", position: 1, name: "Beranda", item: "https://kelaskonten.id" },
+    { "@type": "ListItem", position: 2, name: "Layanan", item: "https://kelaskonten.id/layanan" },
     {
       "@type": "ListItem",
       position: 3,
       name: "Penulisan Konten",
-      item: "https://kontenpro.id/layanan/penulisan-konten",
+      item: "https://kelaskonten.id/layanan/penulisan-konten",
     },
   ],
 };
@@ -38,8 +38,8 @@ const serviceSchema = {
     "Layanan penulisan artikel SEO-friendly berkualitas tinggi. Riset keyword mendalam, optimasi on-page, dan revisi sampai puas.",
   provider: {
     "@type": "Organization",
-    name: "KontenPro",
-    url: "https://kontenpro.id",
+    name: "KelasKonten",
+    url: "https://kelaskonten.id",
   },
   areaServed: { "@type": "Country", name: "Indonesia" },
   serviceType: "Content Writing",

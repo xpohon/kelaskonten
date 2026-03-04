@@ -4,11 +4,11 @@ import Footer from "@/components/layout/Footer";
 import CopywritingContent from "@/components/layanan/CopywritingContent";
 
 export const metadata: Metadata = {
-  title: "Jasa Copywriter Profesional & Konten Sosial Media | KontenPro",
+  title: "Jasa Copywriter Profesional & Konten Sosial Media | KelasKonten",
   description:
     "Copywriting yang mengkonversi pengunjung jadi pembeli. Caption sosmed, email marketing, dan brand voice dari copywriter Indonesia berpengalaman.",
   openGraph: {
-    title: "Jasa Copywriter Profesional & Konten Sosial Media | KontenPro",
+    title: "Jasa Copywriter Profesional & Konten Sosial Media | KelasKonten",
     description:
       "Copywriting yang mengkonversi pengunjung jadi pembeli. Caption sosmed, email marketing, dan brand voice dari copywriter Indonesia berpengalaman.",
   },
@@ -19,13 +19,13 @@ const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Beranda", item: "https://kontenpro.id" },
-    { "@type": "ListItem", position: 2, name: "Layanan", item: "https://kontenpro.id/layanan" },
+    { "@type": "ListItem", position: 1, name: "Beranda", item: "https://kelaskonten.id" },
+    { "@type": "ListItem", position: 2, name: "Layanan", item: "https://kelaskonten.id/layanan" },
     {
       "@type": "ListItem",
       position: 3,
       name: "Copywriting",
-      item: "https://kontenpro.id/layanan/copywriting",
+      item: "https://kelaskonten.id/layanan/copywriting",
     },
   ],
 };
@@ -38,8 +38,8 @@ const serviceSchema = {
     "Layanan copywriting profesional untuk caption sosial media, email marketing, iklan, dan brand voice. Konversi lebih tinggi, engagement lebih kuat.",
   provider: {
     "@type": "Organization",
-    name: "KontenPro",
-    url: "https://kontenpro.id",
+    name: "KelasKonten",
+    url: "https://kelaskonten.id",
   },
   areaServed: { "@type": "Country", name: "Indonesia" },
   serviceType: "Copywriting Services",
@@ -114,7 +114,7 @@ const faqSchema = {
     },
     {
       "@type": "Question",
-      name: "Apakah ada contoh portfolio copywriting KontenPro?",
+      name: "Apakah ada contoh portfolio copywriting KelasKonten?",
       acceptedAnswer: {
         "@type": "Answer",
         text: "Tentu! Anda bisa melihat sampel karya kami di halaman portofolio. Kami juga bisa mengirimkan contoh spesifik sesuai industri Anda saat konsultasi awal — cukup hubungi kami via WhatsApp.",

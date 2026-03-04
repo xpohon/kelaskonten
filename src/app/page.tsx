@@ -34,9 +34,9 @@ export default function HomePage() {
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "Organization",
-            name: "KontenPro",
-            url: "https://kontenpro.id",
-            logo: "https://kontenpro.id/logo.png",
+            name: "KelasKonten",
+            url: "https://kelaskonten.id",
+            logo: "https://kelaskonten.id/logo.png",
             description:
               "Jasa SEO, penulisan konten, dan copywriting profesional Indonesia. 300+ klien puas dengan hasil nyata.",
             contactPoint: {
@@ -47,9 +47,9 @@ export default function HomePage() {
               availableLanguage: "Indonesian",
             },
             sameAs: [
-              "https://instagram.com/kontenproid",
-              "https://linkedin.com/company/kontenpro",
-              "https://twitter.com/kontenproid",
+              "https://instagram.com/kelaskontenid",
+              "https://linkedin.com/company/kelaskonten",
+              "https://twitter.com/kelaskontenid",
             ],
             aggregateRating: {
               "@type": "AggregateRating",

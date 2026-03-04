@@ -2,7 +2,7 @@ import { MetadataRoute } from "next";
 import { prisma } from "@/lib/db";
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://kontenpro.id";
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://kelaskonten.id";
 
   const articles = await prisma.article.findMany({
     select: { slug: true, updatedAt: true },

@@ -20,8 +20,8 @@ const dmSans = DM_Sans({
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   title: {
-    default: "Jasa SEO & Penulisan Konten Profesional Indonesia | KontenPro",
-    template: "%s | KontenPro",
+    default: "Jasa SEO & Penulisan Konten Profesional Indonesia | KelasKonten",
+    template: "%s | KelasKonten",
   },
   description:
     "Tingkatkan traffic organik dengan artikel SEO berkualitas tinggi. 300+ klien puas, rata-rata top 10 Google dalam 90 hari. Konsultasi gratis!",
@@ -34,14 +34,14 @@ export const metadata: Metadata = {
     "optimasi mesin pencari",
     "konten sosial media",
   ],
-  authors: [{ name: "KontenPro" }],
-  creator: "KontenPro",
+  authors: [{ name: "KelasKonten" }],
+  creator: "KelasKonten",
   openGraph: {
     type: "website",
     locale: "id_ID",
     url: "/",
-    siteName: "KontenPro",
-    title: "Jasa SEO & Penulisan Konten Profesional Indonesia | KontenPro",
+    siteName: "KelasKonten",
+    title: "Jasa SEO & Penulisan Konten Profesional Indonesia | KelasKonten",
     description:
       "Tingkatkan traffic organik dengan artikel SEO berkualitas tinggi. 300+ klien puas, rata-rata top 10 Google dalam 90 hari.",
     images: [
@@ -49,13 +49,13 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "KontenPro - Jasa SEO & Penulisan Konten Profesional",
+        alt: "KelasKonten - Jasa SEO & Penulisan Konten Profesional",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Jasa SEO & Penulisan Konten Profesional Indonesia | KontenPro",
+    title: "Jasa SEO & Penulisan Konten Profesional Indonesia | KelasKonten",
     description:
       "Tingkatkan traffic organik dengan artikel SEO berkualitas tinggi. 300+ klien puas, rata-rata top 10 Google dalam 90 hari.",
     images: ["/og-image.png"],

@@ -68,21 +68,21 @@ export default async function BlogDetailPage({ params }: Props) {
             description: article.seoDescription || article.excerpt,
             author: {
               "@type": "Organization",
-              name: "KontenPro",
+              name: "KelasKonten",
             },
             publisher: {
               "@type": "Organization",
-              name: "KontenPro",
+              name: "KelasKonten",
               logo: {
                 "@type": "ImageObject",
-                url: "https://kontenpro.id/logo.png",
+                url: "https://kelaskonten.id/logo.png",
               },
             },
             datePublished: article.publishedAt.toISOString(),
             dateModified: article.updatedAt.toISOString(),
             mainEntityOfPage: {
               "@type": "WebPage",
-              "@id": `https://kontenpro.id/blog/${slug}`,
+              "@id": `https://kelaskonten.id/blog/${slug}`,
             },
           }),
         }}
@@ -98,19 +98,19 @@ export default async function BlogDetailPage({ params }: Props) {
                 "@type": "ListItem",
                 position: 1,
                 name: "Beranda",
-                item: "https://kontenpro.id",
+                item: "https://kelaskonten.id",
               },
               {
                 "@type": "ListItem",
                 position: 2,
                 name: "Blog",
-                item: "https://kontenpro.id/blog",
+                item: "https://kelaskonten.id/blog",
               },
               {
                 "@type": "ListItem",
                 position: 3,
                 name: article.title,
-                item: `https://kontenpro.id/blog/${slug}`,
+                item: `https://kelaskonten.id/blog/${slug}`,
               },
             ],
           }),

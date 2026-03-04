@@ -4,13 +4,13 @@ import Footer from "@/components/layout/Footer";
 import TentangContent from "@/components/tentang/TentangContent";
 
 export const metadata: Metadata = {
-  title: "Tentang KontenPro — Tim di Balik Konten Berkualitas",
+  title: "Tentang KelasKonten — Tim di Balik Konten Berkualitas",
   description:
-    "Kenali tim KontenPro yang telah membantu 300+ bisnis Indonesia tumbuh dengan konten berkualitas. Berpengalaman, terpercaya, dan berorientasi hasil.",
+    "Kenali tim KelasKonten yang telah membantu 300+ bisnis Indonesia tumbuh dengan konten berkualitas. Berpengalaman, terpercaya, dan berorientasi hasil.",
   openGraph: {
-    title: "Tentang KontenPro — Tim di Balik Konten Berkualitas",
+    title: "Tentang KelasKonten — Tim di Balik Konten Berkualitas",
     description:
-      "Kenali tim KontenPro yang telah membantu 300+ bisnis Indonesia tumbuh dengan konten berkualitas. Berpengalaman, terpercaya, dan berorientasi hasil.",
+      "Kenali tim KelasKonten yang telah membantu 300+ bisnis Indonesia tumbuh dengan konten berkualitas. Berpengalaman, terpercaya, dan berorientasi hasil.",
   },
   alternates: { canonical: "/tentang" },
 };
@@ -19,19 +19,19 @@ const breadcrumbSchema = {
   "@context": "https://schema.org",
   "@type": "BreadcrumbList",
   itemListElement: [
-    { "@type": "ListItem", position: 1, name: "Beranda", item: "https://kontenpro.id" },
-    { "@type": "ListItem", position: 2, name: "Tentang", item: "https://kontenpro.id/tentang" },
+    { "@type": "ListItem", position: 1, name: "Beranda", item: "https://kelaskonten.id" },
+    { "@type": "ListItem", position: 2, name: "Tentang", item: "https://kelaskonten.id/tentang" },
   ],
 };
 
 const orgSchema = {
   "@context": "https://schema.org",
   "@type": "Organization",
-  name: "KontenPro",
-  url: "https://kontenpro.id",
+  name: "KelasKonten",
+  url: "https://kelaskonten.id",
   foundingDate: "2020",
   description:
-    "KontenPro adalah agensi konten digital Indonesia yang membantu 300+ bisnis tumbuh dengan SEO, penulisan konten, dan copywriting profesional.",
+    "KelasKonten adalah agensi konten digital Indonesia yang membantu 300+ bisnis tumbuh dengan SEO, penulisan konten, dan copywriting profesional.",
   founder: {
     "@type": "Person",
     name: "Andi Nugroho",
