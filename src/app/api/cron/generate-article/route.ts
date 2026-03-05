@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Anthropic from "@anthropic-ai/sdk";
 import { prisma } from "@/lib/db";
+import { sendArticleNotification } from "@/lib/email";
 import slugify from "slugify";
 
 export const maxDuration = 60;
@@ -164,7 +165,21 @@ export async function GET(request: Request) {
       },
     });
 
-    return NextResponse.json({ success: true, articleId: article.id, category });
+    // Send email notification (non-blocking — failure won't affect cron)
+    let emailSent = false;
+    try {
+      const emailResult = await sendArticleNotification({
+        title: parsed.title,
+        category,
+        excerpt: parsed.excerpt,
+        articleId: article.id,
+      });
+      emailSent = emailResult.success;
+    } catch (emailError) {
+      console.error("Email notification error:", emailError);
+    }
+
+    return NextResponse.json({ success: true, articleId: article.id, category, emailSent });
   } catch (error) {
     console.error("Cron generate-article error:", error);
     return NextResponse.json(
