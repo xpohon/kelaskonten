@@ -48,10 +48,10 @@ export default function BlogAdminPage() {
   const [search, setSearch] = useState("");
   const [filterCat, setFilterCat] = useState("Semua");
   const [saving, setSaving] = useState(false);
-  const [showSeo, setShowSeo] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
   const [uploadSuccess, setUploadSuccess] = useState<string | null>(null);
+  const [pendingSeo, setPendingSeo] = useState<{ title: string; description: string } | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") router.push("/masuk");
@@ -59,6 +59,18 @@ export default function BlogAdminPage() {
       router.push("/dashboard");
     }
   }, [status, session, router]);
+
+  // Sync SEO fields after document upload
+  useEffect(() => {
+    if (pendingSeo) {
+      setForm((prev) => ({
+        ...prev,
+        seoTitle: pendingSeo.title,
+        seoDescription: pendingSeo.description,
+      }));
+      setPendingSeo(null);
+    }
+  }, [pendingSeo]);
 
   const fetchArticles = () => {
     fetch("/api/admin/articles")
@@ -73,7 +85,6 @@ export default function BlogAdminPage() {
   const handleCreate = () => {
     setForm(emptyForm);
     setEditId(null);
-    setShowSeo(false);
     setUploadError(null);
     setUploadSuccess(null);
     setView("create");
@@ -92,7 +103,6 @@ export default function BlogAdminPage() {
       seoDescription: article.seoDescription || "",
     });
     setEditId(article.id);
-    setShowSeo(Boolean(article.seoTitle || article.seoDescription));
     setView("edit");
   };
 
@@ -165,18 +175,31 @@ export default function BlogAdminPage() {
         return;
       }
 
+      const newTitle = data.title || "";
+      const newExcerpt = data.excerpt || "";
+
+      // Auto-detect category from title + content
+      const textForDetect = `${newTitle} ${newExcerpt} ${data.content || ""}`.toLowerCase();
+      let detectedCategory = "SEO"; // default
+      if (textForDetect.includes("copywriting") || textForDetect.includes("copy writing") || textForDetect.includes("headline") || textForDetect.includes("call-to-action") || textForDetect.includes("cta")) {
+        detectedCategory = "Copywriting";
+      } else if (textForDetect.includes("media sosial") || textForDetect.includes("instagram") || textForDetect.includes("tiktok") || textForDetect.includes("followers") || textForDetect.includes("engagement")) {
+        detectedCategory = "Media Sosial";
+      } else if (textForDetect.includes("penulisan konten") || textForDetect.includes("content writing") || textForDetect.includes("menulis artikel") || textForDetect.includes("blog post")) {
+        detectedCategory = "Penulisan Konten";
+      }
+
       setForm((prev) => ({
         ...prev,
-        title: data.title || prev.title,
-        excerpt: data.excerpt || prev.excerpt,
+        title: newTitle || prev.title,
+        excerpt: newExcerpt || prev.excerpt,
         content: data.content || prev.content,
         readTime: data.readTime || prev.readTime,
-        seoTitle: data.title || prev.seoTitle,
-        seoDescription: data.excerpt || prev.seoDescription,
+        category: detectedCategory,
       }));
 
-      // Auto-expand SEO settings so admin can see the filled values
-      setShowSeo(true);
+      // Set SEO via separate state to trigger useEffect (workaround React batching)
+      setPendingSeo({ title: newTitle, description: newExcerpt });
 
       setUploadSuccess(
         `"${data.fileName}" berhasil diproses. Silakan review dan edit sebelum publish.`
@@ -475,43 +498,23 @@ export default function BlogAdminPage() {
                 </div>
 
                 {/* SEO Settings */}
-                <div className="rounded-xl bg-card-bg border border-card-border overflow-hidden">
-                  <button
-                    type="button"
-                    onClick={() => setShowSeo(!showSeo)}
-                    className="w-full px-6 py-4 flex items-center justify-between text-left hover:bg-surface/50 transition-colors"
-                  >
-                    <span className="font-heading font-bold text-sm">
-                      SEO Settings
-                    </span>
-                    <svg
-                      className={`w-4 h-4 text-muted transition-transform ${showSeo ? "rotate-180" : ""}`}
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                    >
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </button>
-                  {showSeo && (
-                    <div className="px-6 pb-6 space-y-4">
-                      <Input
-                        label="SEO Title"
-                        value={form.seoTitle}
-                        onChange={(e) => updateField("seoTitle", e.target.value)}
-                        placeholder="Custom title untuk search engine"
-                        helperText="Kosongkan untuk pakai judul artikel"
-                      />
-                      <Textarea
-                        label="SEO Description"
-                        value={form.seoDescription}
-                        onChange={(e) => updateField("seoDescription", e.target.value)}
-                        placeholder="Deskripsi untuk search engine"
-                        helperText="Kosongkan untuk pakai excerpt"
-                        className="min-h-[80px]"
-                      />
-                    </div>
-                  )}
+                <div className="p-6 rounded-xl bg-card-bg border border-card-border space-y-5">
+                  <h3 className="font-heading font-bold text-sm">SEO Settings</h3>
+                  <Input
+                    label="SEO Title"
+                    value={form.seoTitle}
+                    onChange={(e) => updateField("seoTitle", e.target.value)}
+                    placeholder="Custom title untuk search engine"
+                    helperText="Kosongkan untuk pakai judul artikel"
+                  />
+                  <Textarea
+                    label="SEO Description"
+                    value={form.seoDescription}
+                    onChange={(e) => updateField("seoDescription", e.target.value)}
+                    placeholder="Deskripsi untuk search engine"
+                    helperText="Kosongkan untuk pakai excerpt"
+                    className="min-h-[80px]"
+                  />
                 </div>
 
                 <div className="flex gap-3">
