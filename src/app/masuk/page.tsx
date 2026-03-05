@@ -28,7 +28,11 @@ export default function LoginPage() {
       setError("Email atau password salah");
       setLoading(false);
     } else {
-      router.push("/dashboard");
+      // Fetch session to check role
+      const res = await fetch("/api/auth/session");
+      const session = await res.json();
+      const role = (session?.user as { role?: string })?.role;
+      router.push(role === "ADMIN" ? "/admin" : "/dashboard");
     }
   };
 

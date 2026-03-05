@@ -75,12 +75,20 @@ export default function AdminDashboard() {
             <h1 className="text-2xl sm:text-3xl font-heading font-bold">
               Admin Panel
             </h1>
-            <button
-              onClick={() => signOut({ callbackUrl: "/" })}
-              className="px-4 py-2.5 text-sm text-muted border border-card-border rounded-xl hover:text-red-400 hover:border-red-400/50 transition-colors"
-            >
-              Logout
-            </button>
+            <div className="flex items-center gap-3">
+              <Link
+                href="/admin/blog"
+                className="px-4 py-2.5 text-sm text-neon border border-neon/30 rounded-xl hover:bg-neon/10 transition-colors font-medium"
+              >
+                Kelola Blog
+              </Link>
+              <button
+                onClick={() => signOut({ callbackUrl: "/" })}
+                className="px-4 py-2.5 text-sm text-muted border border-card-border rounded-xl hover:text-red-400 hover:border-red-400/50 transition-colors"
+              >
+                Logout
+              </button>
+            </div>
           </div>
 
           {/* Stats */}

@@ -32,7 +32,10 @@ export default function DashboardPage() {
 
   useEffect(() => {
     if (status === "unauthenticated") router.push("/masuk");
-  }, [status, router]);
+    if (session && (session.user as { role?: string }).role === "ADMIN") {
+      router.push("/admin");
+    }
+  }, [status, session, router]);
 
   useEffect(() => {
     if (session) {

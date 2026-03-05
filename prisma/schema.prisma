@@ -127,7 +127,7 @@ model Article {
   coverImage     String?
   readTime       Int       @default(5)
   views          Int       @default(0)
-  author         String    @default("Tim KontenPro")
+  author         String    @default("Tim KelasKonten")
   publishedAt    DateTime  @default(now())
   seoTitle       String?
   seoDescription String?

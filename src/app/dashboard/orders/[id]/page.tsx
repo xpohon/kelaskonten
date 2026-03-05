@@ -35,17 +35,28 @@ export default function OrderDetailPage() {
   const params = useParams();
   const [order, setOrder] = useState<OrderDetail | null>(null);
   const [message, setMessage] = useState("");
+  const [newFileName, setNewFileName] = useState("");
+  const [newFileUrl, setNewFileUrl] = useState("");
+  const [uploading, setUploading] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
+
+  const isAdmin = session && (session.user as { role?: string }).role === "ADMIN";
 
   useEffect(() => {
     if (status === "unauthenticated") router.push("/masuk");
   }, [status, router]);
 
+  const refreshOrder = async () => {
+    const res = await fetch(`/api/orders/${params.id}`);
+    const data = await res.json();
+    setOrder(data.order);
+  };
+
   useEffect(() => {
     if (session) {
-      fetch(`/api/orders/${params.id}`)
-        .then((r) => r.json())
-        .then((data) => setOrder(data.order));
+      refreshOrder();
     }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session, params.id]);
 
   const sendMessage = async () => {
@@ -56,10 +67,34 @@ export default function OrderDetailPage() {
       body: JSON.stringify({ orderId: params.id, content: message }),
     });
     setMessage("");
-    // Refresh order
-    const res = await fetch(`/api/orders/${params.id}`);
-    const data = await res.json();
-    setOrder(data.order);
+    refreshOrder();
+  };
+
+  const handleAddDeliverable = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newFileName.trim() || !newFileUrl.trim()) return;
+    setUploading(true);
+    await fetch("/api/admin/deliverables", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        orderId: params.id,
+        fileName: newFileName,
+        fileUrl: newFileUrl,
+      }),
+    });
+    setNewFileName("");
+    setNewFileUrl("");
+    setUploading(false);
+    refreshOrder();
+  };
+
+  const handleDeleteDeliverable = async (id: string) => {
+    if (!window.confirm("Yakin ingin menghapus file ini?")) return;
+    setDeletingId(id);
+    await fetch(`/api/admin/deliverables/${id}`, { method: "DELETE" });
+    setDeletingId(null);
+    refreshOrder();
   };
 
   if (!order) {
@@ -80,11 +115,11 @@ export default function OrderDetailPage() {
       <Navbar />
       <main className="pt-24 pb-16 min-h-screen">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-          <Link href="/dashboard" className="inline-flex items-center gap-1 text-sm text-muted hover:text-neon mb-6">
+          <Link href={isAdmin ? "/admin" : "/dashboard"} className="inline-flex items-center gap-1 text-sm text-muted hover:text-neon mb-6">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
             </svg>
-            Kembali ke Dashboard
+            {isAdmin ? "Kembali ke Admin" : "Kembali ke Dashboard"}
           </Link>
 
           <h1 className="text-2xl font-heading font-bold mb-2">
@@ -154,16 +189,59 @@ export default function OrderDetailPage() {
                     {order.deliverables.map((d) => (
                       <div key={d.id} className="flex items-center justify-between p-3 rounded-lg bg-surface">
                         <span className="text-sm">{d.fileName}</span>
-                        <a
-                          href={d.fileUrl}
-                          className="text-xs text-neon hover:underline"
-                          download
-                        >
-                          Download
-                        </a>
+                        <div className="flex items-center gap-3">
+                          <a
+                            href={d.fileUrl}
+                            className="text-xs text-neon hover:underline"
+                            download
+                          >
+                            Download
+                          </a>
+                          {isAdmin && (
+                            <button
+                              onClick={() => handleDeleteDeliverable(d.id)}
+                              disabled={deletingId === d.id}
+                              className="text-xs text-red-400 hover:underline disabled:opacity-50"
+                            >
+                              {deletingId === d.id ? "..." : "Hapus"}
+                            </button>
+                          )}
+                        </div>
                       </div>
                     ))}
                   </div>
+                )}
+
+                {/* Admin upload form */}
+                {isAdmin && (
+                  <form onSubmit={handleAddDeliverable} className="mt-4 pt-4 border-t border-card-border">
+                    <p className="text-xs text-muted mb-3 uppercase tracking-wider font-semibold">
+                      Tambah Deliverable
+                    </p>
+                    <div className="flex flex-col sm:flex-row gap-2">
+                      <input
+                        value={newFileName}
+                        onChange={(e) => setNewFileName(e.target.value)}
+                        placeholder="Nama file (e.g. artikel-seo.docx)"
+                        required
+                        className="flex-1 px-3 py-2 bg-surface border border-card-border rounded-lg text-sm focus:outline-none focus:border-neon"
+                      />
+                      <input
+                        value={newFileUrl}
+                        onChange={(e) => setNewFileUrl(e.target.value)}
+                        placeholder="URL file (Google Drive, dsb.)"
+                        required
+                        className="flex-1 px-3 py-2 bg-surface border border-card-border rounded-lg text-sm focus:outline-none focus:border-neon"
+                      />
+                      <button
+                        type="submit"
+                        disabled={uploading}
+                        className="px-4 py-2 bg-neon text-[#0a0a0f] font-semibold text-sm rounded-lg hover:bg-neon/90 transition-colors disabled:opacity-50 whitespace-nowrap"
+                      >
+                        {uploading ? "..." : "Tambah File"}
+                      </button>
+                    </div>
+                  </form>
                 )}
               </div>
 
