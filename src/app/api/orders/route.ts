@@ -11,12 +11,24 @@ export async function POST(request: Request) {
     }
 
     const userId = (session.user as { id: string }).id;
-    const { serviceType, packageName, price, brief, targetAudience, references, deadline } =
+    const { serviceType, packageName, brief, targetAudience, references, deadline } =
       await request.json();
 
-    if (!serviceType || !packageName || !price) {
+    if (!serviceType || !packageName) {
       return NextResponse.json(
         { error: "Data order tidak lengkap" },
+        { status: 400 }
+      );
+    }
+
+    // Validasi harga dari database — abaikan harga dari frontend
+    const pkg = await prisma.servicePackage.findFirst({
+      where: { serviceType, name: packageName, isActive: true },
+    });
+
+    if (!pkg) {
+      return NextResponse.json(
+        { error: "Layanan atau paket tidak valid" },
         { status: 400 }
       );
     }
@@ -26,7 +38,7 @@ export async function POST(request: Request) {
         userId,
         serviceType,
         packageName,
-        price: parseInt(price),
+        price: pkg.price, // Harga dari database, bukan dari request
         brief: brief || null,
         targetAudience: targetAudience || null,
         references: references || null,

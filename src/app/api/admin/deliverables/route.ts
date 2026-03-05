@@ -15,10 +15,16 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const { orderId, fileName, fileUrl } = await request.json();
+    const { orderId, fileName, fileUrl, category, description } = await request.json();
 
     const deliverable = await prisma.deliverable.create({
-      data: { orderId, fileName, fileUrl },
+      data: {
+        orderId,
+        fileName,
+        fileUrl,
+        category: category || "Umum",
+        description: description || null,
+      },
     });
 
     return NextResponse.json({ deliverable });

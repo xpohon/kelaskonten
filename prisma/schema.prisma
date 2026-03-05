@@ -108,11 +108,13 @@ model Message {
 }
 
 model Deliverable {
-  id         String   @id @default(cuid())
-  orderId    String
-  fileName   String
-  fileUrl    String
-  uploadedAt DateTime @default(now())
+  id          String   @id @default(cuid())
+  orderId     String
+  fileName    String
+  fileUrl     String
+  category    String   @default("Umum")
+  description String?
+  uploadedAt  DateTime @default(now())
 
   order Order @relation(fields: [orderId], references: [id])
 }
@@ -163,4 +165,19 @@ model Testimonial {
   result      String?
   isVisible   Boolean @default(true)
   createdAt   DateTime @default(now())
+}
+
+model ServicePackage {
+  id          String   @id @default(cuid())
+  serviceType String
+  name        String
+  price       Int
+  description String
+  features    String?
+  isActive    Boolean  @default(true)
+  sortOrder   Int      @default(0)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@unique([serviceType, name])
 }

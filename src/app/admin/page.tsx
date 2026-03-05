@@ -77,6 +77,12 @@ export default function AdminDashboard() {
             </h1>
             <div className="flex items-center gap-3">
               <Link
+                href="/admin/packages"
+                className="px-4 py-2.5 text-sm text-neon border border-neon/30 rounded-xl hover:bg-neon/10 transition-colors font-medium"
+              >
+                Kelola Paket
+              </Link>
+              <Link
                 href="/admin/blog"
                 className="px-4 py-2.5 text-sm text-neon border border-neon/30 rounded-xl hover:bg-neon/10 transition-colors font-medium"
               >
