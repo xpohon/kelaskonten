@@ -2,17 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/db";
-
-// Status yang valid untuk transisi
-const VALID_STATUSES = [
-  "PENDING_PAYMENT",
-  "SCOPE_REVIEW",
-  "IN_PROGRESS",
-  "REVIEW",
-  "REVISION",
-  "COMPLETED",
-  "CANCELLED",
-];
+import { isValidTransition } from "@/lib/order-status";
 
 export async function GET(
   request: Request,
@@ -34,6 +24,7 @@ export async function GET(
         user: { select: { name: true, email: true } },
         deliverables: true,
         scopeItems: { orderBy: { sortOrder: "asc" } },
+        revisionRequests: { orderBy: { createdAt: "desc" } },
         messages: {
           include: { sender: { select: { name: true, role: true } } },
           orderBy: { createdAt: "asc" },
@@ -84,7 +75,13 @@ export async function PATCH(
 
     // Whitelist field — hanya field tertentu yang boleh diupdate
     const allowedData: Record<string, unknown> = {};
-    if (body.status && VALID_STATUSES.includes(body.status)) {
+    if (body.status) {
+      if (!isValidTransition(existingOrder.status, body.status)) {
+        return NextResponse.json(
+          { error: `Transisi status ${existingOrder.status} → ${body.status} tidak valid` },
+          { status: 400 }
+        );
+      }
       allowedData.status = body.status;
     }
 
@@ -96,6 +93,31 @@ export async function PATCH(
       where: { id },
       data: allowedData,
     });
+
+    // Handle revision lifecycle
+    if (body.status === "IN_PROGRESS" && existingOrder.status === "REVISION") {
+      await prisma.order.update({
+        where: { id },
+        data: { revisionCount: { increment: 1 } },
+      });
+      const latestRevision = await prisma.revisionRequest.findFirst({
+        where: { orderId: id, status: "PENDING" },
+        orderBy: { createdAt: "desc" },
+      });
+      if (latestRevision) {
+        await prisma.revisionRequest.update({
+          where: { id: latestRevision.id },
+          data: { status: "IN_PROGRESS" },
+        });
+      }
+    }
+
+    if (body.status === "REVIEW" && existingOrder.status === "IN_PROGRESS") {
+      await prisma.revisionRequest.updateMany({
+        where: { orderId: id, status: "IN_PROGRESS" },
+        data: { status: "RESOLVED", resolvedAt: new Date() },
+      });
+    }
 
     return NextResponse.json({ order });
   } catch {

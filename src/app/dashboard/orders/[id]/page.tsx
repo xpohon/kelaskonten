@@ -21,6 +21,15 @@ interface ScopeItemData {
   sortOrder: number;
 }
 
+interface RevisionRequestData {
+  id: string;
+  revisionNumber: number;
+  feedback: string;
+  status: string;
+  createdAt: string;
+  resolvedAt: string | null;
+}
+
 interface OrderDetail {
   id: string;
   serviceType: string;
@@ -31,10 +40,12 @@ interface OrderDetail {
   targetAudience: string | null;
   deadline: string | null;
   scopeApprovedAt: string | null;
+  revisionCount: number;
   createdAt: string;
   payment?: { status: string; method: string | null; paidAt: string | null; midtransOrderId: string };
   deliverables: DeliverableItem[];
   scopeItems: ScopeItemData[];
+  revisionRequests: RevisionRequestData[];
   messages: { id: string; content: string; createdAt: string; sender: { name: string; role: string } }[];
 }
 
@@ -136,6 +147,9 @@ export default function OrderDetailPage() {
   const [newScopeItem, setNewScopeItem] = useState("");
   const [addingScope, setAddingScope] = useState(false);
   const [approvingScope, setApprovingScope] = useState(false);
+  const [showRevisionForm, setShowRevisionForm] = useState(false);
+  const [revisionFeedback, setRevisionFeedback] = useState("");
+  const [requestingRevision, setRequestingRevision] = useState(false);
 
   const isAdmin = session && (session.user as { role?: string }).role === "ADMIN";
 
@@ -224,6 +238,29 @@ export default function OrderDetailPage() {
     setApprovingScope(true);
     await fetch(`/api/orders/${params.id}/scope/approve`, { method: "POST" });
     setApprovingScope(false);
+    refreshOrder();
+  };
+
+  const handleRequestRevision = async () => {
+    if (!revisionFeedback.trim()) return;
+    setRequestingRevision(true);
+    await fetch(`/api/orders/${params.id}/revisions`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ feedback: revisionFeedback }),
+    });
+    setRevisionFeedback("");
+    setShowRevisionForm(false);
+    setRequestingRevision(false);
+    refreshOrder();
+  };
+
+  const updateOrderStatus = async (newStatus: string) => {
+    await fetch(`/api/orders/${params.id}`, {
+      method: "PATCH",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ status: newStatus }),
+    });
     refreshOrder();
   };
 
@@ -316,6 +353,18 @@ export default function OrderDetailPage() {
               </div>
             ))}
           </div>
+
+          {/* Revision indicator */}
+          {order.status === "REVISION" && (
+            <div className="flex items-center gap-2 mb-6 p-3 rounded-xl bg-orange-500/10 border border-orange-500/20">
+              <svg className="w-5 h-5 text-orange-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              </svg>
+              <span className="text-sm text-orange-300 font-medium">
+                Revisi #{order.revisionRequests?.[0]?.revisionNumber || order.revisionCount + 1} — menunggu pengerjaan ulang
+              </span>
+            </div>
+          )}
 
           <div className="grid lg:grid-cols-3 gap-6">
             {/* Main content */}
@@ -590,6 +639,109 @@ export default function OrderDetailPage() {
                 )}
               </div>
 
+              {/* ===== ADMIN: REVISION REQUEST DETAIL ===== */}
+              {isAdmin && order.status === "REVISION" && order.revisionRequests?.[0] && (
+                <div className="p-6 rounded-2xl bg-orange-500/5 border border-orange-500/20">
+                  <h3 className="font-heading font-bold text-lg mb-2">
+                    Permintaan Revisi #{order.revisionRequests[0].revisionNumber}
+                  </h3>
+                  <div className="p-4 rounded-xl bg-surface mb-4">
+                    <p className="text-sm">{order.revisionRequests[0].feedback}</p>
+                    <p className="text-xs text-muted mt-2">
+                      Diminta pada {new Date(order.revisionRequests[0].createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => updateOrderStatus("IN_PROGRESS")}
+                    className="px-4 py-2.5 bg-blue-500 text-white font-semibold text-sm rounded-xl hover:bg-blue-600 transition-colors"
+                  >
+                    Mulai Pengerjaan Ulang
+                  </button>
+                </div>
+              )}
+
+              {/* ===== CLIENT: REQUEST REVISION (when REVIEW) ===== */}
+              {!isAdmin && order.status === "REVIEW" && (
+                <div className="p-6 rounded-2xl bg-orange-500/5 border border-orange-500/20">
+                  <h3 className="font-heading font-bold text-lg mb-2">Butuh Revisi?</h3>
+                  <p className="text-sm text-muted mb-4">
+                    Jika hasil belum sesuai, Anda dapat meminta revisi dengan memberikan feedback.
+                  </p>
+                  {!showRevisionForm ? (
+                    <div className="flex gap-3">
+                      <button
+                        onClick={() => setShowRevisionForm(true)}
+                        className="px-4 py-2.5 bg-orange-500 text-white font-semibold text-sm rounded-xl hover:bg-orange-600 transition-colors"
+                      >
+                        Minta Revisi
+                      </button>
+                      <button
+                        onClick={() => {
+                          if (window.confirm("Setujui semua deliverable dan selesaikan order?")) {
+                            updateOrderStatus("COMPLETED");
+                          }
+                        }}
+                        className="px-4 py-2.5 bg-neon text-[#0a0a0f] font-semibold text-sm rounded-xl hover:shadow-[0_0_20px_rgba(79,255,176,0.3)] transition-all"
+                      >
+                        Setuju & Selesaikan
+                      </button>
+                    </div>
+                  ) : (
+                    <div className="space-y-3">
+                      <textarea
+                        value={revisionFeedback}
+                        onChange={(e) => setRevisionFeedback(e.target.value)}
+                        placeholder="Jelaskan apa yang perlu diubah..."
+                        rows={4}
+                        className="w-full px-4 py-3 bg-surface border border-card-border rounded-xl text-sm focus:outline-none focus:border-orange-400 resize-none"
+                      />
+                      <div className="flex gap-2">
+                        <button
+                          onClick={handleRequestRevision}
+                          disabled={requestingRevision || !revisionFeedback.trim()}
+                          className="px-4 py-2.5 bg-orange-500 text-white font-semibold text-sm rounded-xl hover:bg-orange-600 transition-colors disabled:opacity-50"
+                        >
+                          {requestingRevision ? "Mengirim..." : "Kirim Permintaan Revisi"}
+                        </button>
+                        <button
+                          onClick={() => { setShowRevisionForm(false); setRevisionFeedback(""); }}
+                          className="px-4 py-2.5 text-muted text-sm rounded-xl hover:text-foreground transition-colors"
+                        >
+                          Batal
+                        </button>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* ===== REVISION HISTORY ===== */}
+              {order.revisionRequests && order.revisionRequests.length > 0 && (
+                <div className="p-6 rounded-2xl bg-card-bg border border-card-border">
+                  <h3 className="font-heading font-bold text-lg mb-4">Riwayat Revisi</h3>
+                  <div className="space-y-3">
+                    {order.revisionRequests.map((rev) => (
+                      <div key={rev.id} className="p-4 rounded-xl bg-surface">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-sm font-semibold">Revisi #{rev.revisionNumber}</span>
+                          <span className={`text-xs px-2 py-0.5 rounded-full ${
+                            rev.status === "RESOLVED" ? "text-neon bg-neon/10" :
+                            rev.status === "IN_PROGRESS" ? "text-blue-400 bg-blue-400/10" :
+                            "text-orange-400 bg-orange-400/10"
+                          }`}>
+                            {rev.status === "RESOLVED" ? "Selesai" : rev.status === "IN_PROGRESS" ? "Dikerjakan" : "Menunggu"}
+                          </span>
+                        </div>
+                        <p className="text-sm text-muted">{rev.feedback}</p>
+                        <p className="text-xs text-muted mt-2">
+                          {new Date(rev.createdAt).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}
+                        </p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* ===== DETAIL ORDER ===== */}
               <div className="p-6 rounded-xl bg-card-bg border border-card-border space-y-3">
                 <h3 className="font-heading font-bold">Detail Order</h3>
@@ -721,6 +873,12 @@ export default function OrderDetailPage() {
                     <span className="text-muted">Paket</span>
                     <span>{order.packageName}</span>
                   </div>
+                  {order.revisionCount > 0 && (
+                    <div className="flex justify-between">
+                      <span className="text-muted">Revisi</span>
+                      <span className="text-orange-400 font-medium">{order.revisionCount}x</span>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

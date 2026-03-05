@@ -17,6 +17,15 @@ export async function POST(request: Request) {
 
     const { orderId, fileName, fileUrl, category, description } = await request.json();
 
+    if (!orderId) {
+      return NextResponse.json({ error: "orderId wajib" }, { status: 400 });
+    }
+
+    const order = await prisma.order.findUnique({ where: { id: orderId } });
+    if (!order) {
+      return NextResponse.json({ error: "Order tidak ditemukan" }, { status: 404 });
+    }
+
     const deliverable = await prisma.deliverable.create({
       data: {
         orderId,

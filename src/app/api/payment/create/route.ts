@@ -17,6 +17,12 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Order tidak ditemukan" }, { status: 404 });
     }
 
+    // Ownership check
+    const userId = (session.user as { id: string }).id;
+    if (order.userId !== userId) {
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    }
+
     const midtransOrderId = `KP-${Date.now()}-${crypto.randomBytes(4).toString("hex")}`;
 
     // Create payment record

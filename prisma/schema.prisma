@@ -73,14 +73,16 @@ model Order {
   references      String?
   deadline        DateTime?
   scopeApprovedAt DateTime?
+  revisionCount   Int       @default(0)
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
 
-  user         User          @relation(fields: [userId], references: [id])
-  payment      Payment?
-  messages     Message[]
-  deliverables Deliverable[]
-  scopeItems   ScopeItem[]
+  user             User              @relation(fields: [userId], references: [id])
+  payment          Payment?
+  messages         Message[]
+  deliverables     Deliverable[]
+  scopeItems       ScopeItem[]
+  revisionRequests RevisionRequest[]
 }
 
 model Payment {
@@ -127,6 +129,18 @@ model ScopeItem {
   content   String
   sortOrder Int      @default(0)
   createdAt DateTime @default(now())
+
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+model RevisionRequest {
+  id             String    @id @default(cuid())
+  orderId        String
+  revisionNumber Int
+  feedback       String
+  status         String    @default("PENDING")
+  createdAt      DateTime  @default(now())
+  resolvedAt     DateTime?
 
   order Order @relation(fields: [orderId], references: [id])
 }

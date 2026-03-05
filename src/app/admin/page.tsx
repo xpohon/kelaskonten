@@ -56,6 +56,7 @@ export default function AdminDashboard() {
     .reduce((sum, o) => sum + o.price, 0);
   const activeOrders = orders.filter((o) => o.status === "IN_PROGRESS").length;
   const pendingOrders = orders.filter((o) => o.status === "PENDING_PAYMENT").length;
+  const revisionOrders = orders.filter((o) => o.status === "REVISION").length;
 
   const runSimulation = async (skipAI = false) => {
     if (!window.confirm(`Jalankan simulasi 9 order end-to-end${skipAI ? " (tanpa AI)" : " dengan AI"}? Ini akan membuat order baru untuk demo user.`)) return;
@@ -144,7 +145,7 @@ export default function AdminDashboard() {
           )}
 
           {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 mb-8">
             <div className="p-5 rounded-xl bg-card-bg border border-card-border">
               <p className="text-sm text-muted">Total Revenue</p>
               <p className="text-2xl font-heading font-bold text-neon mt-1">
@@ -158,6 +159,10 @@ export default function AdminDashboard() {
             <div className="p-5 rounded-xl bg-card-bg border border-card-border">
               <p className="text-sm text-muted">Sedang Dikerjakan</p>
               <p className="text-2xl font-heading font-bold mt-1">{activeOrders}</p>
+            </div>
+            <div className="p-5 rounded-xl bg-card-bg border border-card-border">
+              <p className="text-sm text-muted">Butuh Revisi</p>
+              <p className="text-2xl font-heading font-bold mt-1 text-orange-400">{revisionOrders}</p>
             </div>
             <div className="p-5 rounded-xl bg-card-bg border border-card-border">
               <p className="text-sm text-muted">Menunggu Bayar</p>
