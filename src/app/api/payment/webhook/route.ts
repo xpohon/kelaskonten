@@ -44,7 +44,7 @@ export async function POST(request: Request) {
     if (status === "PAID") {
       await prisma.order.update({
         where: { id: payment.orderId },
-        data: { status: "IN_PROGRESS" },
+        data: { status: "SCOPE_REVIEW" },
       });
     }
 

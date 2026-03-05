@@ -6,6 +6,7 @@ import { prisma } from "@/lib/db";
 // Status yang valid untuk transisi
 const VALID_STATUSES = [
   "PENDING_PAYMENT",
+  "SCOPE_REVIEW",
   "IN_PROGRESS",
   "REVIEW",
   "REVISION",
@@ -32,6 +33,7 @@ export async function GET(
         payment: true,
         user: { select: { name: true, email: true } },
         deliverables: true,
+        scopeItems: { orderBy: { sortOrder: "asc" } },
         messages: {
           include: { sender: { select: { name: true, role: true } } },
           orderBy: { createdAt: "asc" },

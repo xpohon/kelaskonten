@@ -62,23 +62,25 @@ model VerificationToken {
 }
 
 model Order {
-  id             String   @id @default(cuid())
-  userId         String
-  serviceType    String
-  packageName    String
-  price          Int
-  status         String   @default("PENDING")
-  brief          String?
-  targetAudience String?
-  references     String?
-  deadline       DateTime?
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @updatedAt
+  id              String    @id @default(cuid())
+  userId          String
+  serviceType     String
+  packageName     String
+  price           Int
+  status          String    @default("PENDING")
+  brief           String?
+  targetAudience  String?
+  references      String?
+  deadline        DateTime?
+  scopeApprovedAt DateTime?
+  createdAt       DateTime  @default(now())
+  updatedAt       DateTime  @updatedAt
 
   user         User          @relation(fields: [userId], references: [id])
   payment      Payment?
   messages     Message[]
   deliverables Deliverable[]
+  scopeItems   ScopeItem[]
 }
 
 model Payment {
@@ -115,6 +117,16 @@ model Deliverable {
   category    String   @default("Umum")
   description String?
   uploadedAt  DateTime @default(now())
+
+  order Order @relation(fields: [orderId], references: [id])
+}
+
+model ScopeItem {
+  id        String   @id @default(cuid())
+  orderId   String
+  content   String
+  sortOrder Int      @default(0)
+  createdAt DateTime @default(now())
 
   order Order @relation(fields: [orderId], references: [id])
 }

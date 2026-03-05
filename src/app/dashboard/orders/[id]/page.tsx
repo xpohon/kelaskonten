@@ -15,6 +15,12 @@ interface DeliverableItem {
   uploadedAt: string;
 }
 
+interface ScopeItemData {
+  id: string;
+  content: string;
+  sortOrder: number;
+}
+
 interface OrderDetail {
   id: string;
   serviceType: string;
@@ -24,15 +30,18 @@ interface OrderDetail {
   brief: string | null;
   targetAudience: string | null;
   deadline: string | null;
+  scopeApprovedAt: string | null;
   createdAt: string;
   payment?: { status: string; method: string | null; paidAt: string | null; midtransOrderId: string };
   deliverables: DeliverableItem[];
+  scopeItems: ScopeItemData[];
   messages: { id: string; content: string; createdAt: string; sender: { name: string; role: string } }[];
 }
 
-const statusSteps = ["PENDING_PAYMENT", "IN_PROGRESS", "REVIEW", "COMPLETED"];
+const statusSteps = ["PENDING_PAYMENT", "SCOPE_REVIEW", "IN_PROGRESS", "REVIEW", "COMPLETED"];
 const stepLabels: Record<string, string> = {
   PENDING_PAYMENT: "Pembayaran",
+  SCOPE_REVIEW: "Scope",
   IN_PROGRESS: "Pengerjaan",
   REVIEW: "Review",
   COMPLETED: "Selesai",
@@ -124,6 +133,9 @@ export default function OrderDetailPage() {
   const [newDescription, setNewDescription] = useState("");
   const [uploading, setUploading] = useState(false);
   const [deletingId, setDeletingId] = useState<string | null>(null);
+  const [newScopeItem, setNewScopeItem] = useState("");
+  const [addingScope, setAddingScope] = useState(false);
+  const [approvingScope, setApprovingScope] = useState(false);
 
   const isAdmin = session && (session.user as { role?: string }).role === "ADMIN";
 
@@ -182,6 +194,36 @@ export default function OrderDetailPage() {
     setDeletingId(id);
     await fetch(`/api/admin/deliverables/${id}`, { method: "DELETE" });
     setDeletingId(null);
+    refreshOrder();
+  };
+
+  const handleAddScopeItem = async () => {
+    if (!newScopeItem.trim()) return;
+    setAddingScope(true);
+    await fetch(`/api/orders/${params.id}/scope`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ content: newScopeItem }),
+    });
+    setNewScopeItem("");
+    setAddingScope(false);
+    refreshOrder();
+  };
+
+  const handleDeleteScopeItem = async (itemId: string) => {
+    await fetch(`/api/orders/${params.id}/scope`, {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ itemId }),
+    });
+    refreshOrder();
+  };
+
+  const handleApproveScope = async () => {
+    if (!window.confirm("Dengan menyetujui, Anda menerima bahwa pekerjaan di luar scope ini akan dikenakan biaya tambahan. Lanjutkan?")) return;
+    setApprovingScope(true);
+    await fetch(`/api/orders/${params.id}/scope/approve`, { method: "POST" });
+    setApprovingScope(false);
     refreshOrder();
   };
 
@@ -278,6 +320,109 @@ export default function OrderDetailPage() {
           <div className="grid lg:grid-cols-3 gap-6">
             {/* Main content */}
             <div className="lg:col-span-2 space-y-6">
+
+              {/* ===== SCOPE SECTION ===== */}
+              {(order.scopeItems.length > 0 || order.status === "SCOPE_REVIEW") && (
+                <div className={`p-6 rounded-2xl border ${order.scopeApprovedAt ? "bg-card-bg border-card-border" : "bg-cyan-500/5 border-cyan-500/20"}`}>
+                  <div className="flex items-center gap-2 mb-1">
+                    <svg className="w-5 h-5 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+                    </svg>
+                    <h3 className="font-heading font-bold text-lg">Ruang Lingkup Pekerjaan</h3>
+                  </div>
+
+                  {order.scopeApprovedAt ? (
+                    <p className="text-xs text-neon mb-4 flex items-center gap-1">
+                      <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                      </svg>
+                      Disetujui pada {new Date(order.scopeApprovedAt).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}
+                    </p>
+                  ) : isAdmin ? (
+                    <p className="text-xs text-muted mb-4">Buat scope untuk klien approve sebelum pengerjaan dimulai.</p>
+                  ) : (
+                    <p className="text-xs text-muted mb-4">Review scope berikut sebelum kami mulai pengerjaan.</p>
+                  )}
+
+                  {/* Scope items list */}
+                  {order.scopeItems.length > 0 ? (
+                    <div className="space-y-2 mb-4">
+                      {order.scopeItems.map((item) => (
+                        <div key={item.id} className="flex items-start gap-3 p-3 rounded-xl bg-surface">
+                          <svg className={`w-4 h-4 mt-0.5 shrink-0 ${order.scopeApprovedAt ? "text-neon" : "text-cyan-400"}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                          </svg>
+                          <p className="text-sm flex-1">{item.content}</p>
+                          {isAdmin && !order.scopeApprovedAt && (
+                            <button
+                              onClick={() => handleDeleteScopeItem(item.id)}
+                              className="p-1 text-muted hover:text-red-400 transition-colors shrink-0"
+                            >
+                              <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                              </svg>
+                            </button>
+                          )}
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="p-6 rounded-xl border border-dashed border-card-border text-center mb-4">
+                      <p className="text-sm text-muted">
+                        {isAdmin ? "Belum ada scope item. Tambahkan di bawah." : "Admin sedang menyiapkan scope pekerjaan Anda."}
+                      </p>
+                    </div>
+                  )}
+
+                  {/* Admin: add scope item form */}
+                  {isAdmin && !order.scopeApprovedAt && (
+                    <div className="flex gap-2">
+                      <input
+                        value={newScopeItem}
+                        onChange={(e) => setNewScopeItem(e.target.value)}
+                        placeholder="Contoh: 5 artikel blog x 800 kata, SEO-optimized"
+                        className="flex-1 px-3 py-2 bg-surface border border-card-border rounded-lg text-sm focus:outline-none focus:border-cyan-400"
+                        onKeyDown={(e) => e.key === "Enter" && handleAddScopeItem()}
+                      />
+                      <button
+                        onClick={handleAddScopeItem}
+                        disabled={addingScope || !newScopeItem.trim()}
+                        className="px-4 py-2 bg-cyan-500 text-white font-semibold text-sm rounded-lg hover:bg-cyan-600 transition-colors disabled:opacity-50 shrink-0"
+                      >
+                        {addingScope ? "..." : "+ Tambah"}
+                      </button>
+                    </div>
+                  )}
+
+                  {/* Admin: waiting badge */}
+                  {isAdmin && !order.scopeApprovedAt && order.scopeItems.length > 0 && (
+                    <div className="mt-4 p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/20 flex items-center gap-2">
+                      <svg className="w-4 h-4 text-yellow-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <p className="text-xs text-yellow-300">Menunggu persetujuan klien untuk scope ini.</p>
+                    </div>
+                  )}
+
+                  {/* Client: approve button */}
+                  {!isAdmin && !order.scopeApprovedAt && order.scopeItems.length > 0 && (
+                    <div className="mt-4 space-y-3">
+                      <div className="p-3 rounded-lg bg-yellow-500/10 border border-yellow-500/20">
+                        <p className="text-xs text-yellow-300">
+                          Dengan menyetujui, Anda menerima bahwa pekerjaan di luar scope ini akan dikenakan biaya tambahan.
+                        </p>
+                      </div>
+                      <button
+                        onClick={handleApproveScope}
+                        disabled={approvingScope}
+                        className="w-full py-3 bg-neon text-[#0a0a0f] font-semibold rounded-xl hover:shadow-[0_0_20px_rgba(79,255,176,0.3)] transition-all disabled:opacity-50"
+                      >
+                        {approvingScope ? "Memproses..." : "Setuju & Mulai Pengerjaan"}
+                      </button>
+                    </div>
+                  )}
+                </div>
+              )}
 
               {/* ===== DELIVERABLES SECTION ===== */}
               <div className="p-6 rounded-2xl bg-card-bg border border-card-border">
