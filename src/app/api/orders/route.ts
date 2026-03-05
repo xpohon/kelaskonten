@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/db";
+import { sendOrderCreated } from "@/lib/email";
 
 export async function POST(request: Request) {
   try {
@@ -46,6 +47,12 @@ export async function POST(request: Request) {
         status: "PENDING_PAYMENT",
       },
     });
+
+    // Fire-and-forget email
+    const user = await prisma.user.findUnique({ where: { id: userId }, select: { name: true, email: true } });
+    if (user?.email) {
+      sendOrderCreated({ to: user.email, clientName: user.name || "Klien", serviceType, packageName, price: pkg.price, orderId: order.id }).catch(() => {});
+    }
 
     return NextResponse.json({ order });
   } catch {

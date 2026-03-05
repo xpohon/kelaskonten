@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/db";
+import { sendScopeApproved } from "@/lib/email";
 
 // POST — Client approve scope
 export async function POST(
@@ -56,6 +57,12 @@ export async function POST(
         content: `Scope pekerjaan telah disetujui oleh ${user.name}. Pengerjaan dimulai.`,
       },
     });
+
+    // Fire-and-forget email to order owner
+    const orderOwner = await prisma.user.findUnique({ where: { id: order.userId }, select: { name: true, email: true } });
+    if (orderOwner?.email) {
+      sendScopeApproved({ to: orderOwner.email, clientName: orderOwner.name || "Klien", serviceType: order.serviceType, packageName: order.packageName, price: order.price, orderId: id }).catch(() => {});
+    }
 
     return NextResponse.json({ success: true });
   } catch {

@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/db";
 import { isValidTransition } from "@/lib/order-status";
+import { sendReviewReady, sendRevisionStarted, sendOrderCompleted } from "@/lib/email";
 
 export async function GET(
   request: Request,
@@ -117,6 +118,22 @@ export async function PATCH(
         where: { orderId: id, status: "IN_PROGRESS" },
         data: { status: "RESOLVED", resolvedAt: new Date() },
       });
+    }
+
+    // Fire-and-forget emails based on transition
+    const orderOwner = await prisma.user.findUnique({ where: { id: existingOrder.userId }, select: { name: true, email: true } });
+    if (orderOwner?.email) {
+      const emailParams = { to: orderOwner.email, clientName: orderOwner.name || "Klien", serviceType: existingOrder.serviceType, packageName: existingOrder.packageName, price: existingOrder.price, orderId: id };
+
+      if (body.status === "REVIEW" && existingOrder.status === "IN_PROGRESS") {
+        sendReviewReady(emailParams).catch(() => {});
+      }
+      if (body.status === "IN_PROGRESS" && existingOrder.status === "REVISION") {
+        sendRevisionStarted({ ...emailParams, revisionNumber: (existingOrder.revisionCount || 0) + 1 }).catch(() => {});
+      }
+      if (body.status === "COMPLETED") {
+        sendOrderCompleted(emailParams).catch(() => {});
+      }
     }
 
     return NextResponse.json({ order });

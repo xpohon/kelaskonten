@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import crypto from "crypto";
 import { prisma } from "@/lib/db";
 import { rateLimit } from "@/lib/rate-limit";
+import { sendPaymentConfirmed, sendPaymentNotifAdmin } from "@/lib/email";
 
 export async function POST(request: Request) {
   try {
@@ -62,10 +63,24 @@ export async function POST(request: Request) {
 
     // Update order status
     if (status === "PAID") {
-      await prisma.order.update({
+      const order = await prisma.order.update({
         where: { id: payment.orderId },
         data: { status: "SCOPE_REVIEW" },
+        include: { user: { select: { name: true, email: true } } },
       });
+
+      // Fire-and-forget emails
+      const emailParams = {
+        clientName: order.user.name || "Klien",
+        serviceType: order.serviceType,
+        packageName: order.packageName,
+        price: order.price,
+        orderId: order.id,
+      };
+      if (order.user.email) {
+        sendPaymentConfirmed({ to: order.user.email, ...emailParams }).catch(() => {});
+      }
+      sendPaymentNotifAdmin(emailParams).catch(() => {});
     }
 
     return NextResponse.json({ status: "ok" });
