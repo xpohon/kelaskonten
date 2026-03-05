@@ -15,10 +15,25 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
-    const { orderId, fileName, fileUrl } = await request.json();
+    const { orderId, fileName, fileUrl, category, description } = await request.json();
+
+    if (!orderId) {
+      return NextResponse.json({ error: "orderId wajib" }, { status: 400 });
+    }
+
+    const order = await prisma.order.findUnique({ where: { id: orderId } });
+    if (!order) {
+      return NextResponse.json({ error: "Order tidak ditemukan" }, { status: 404 });
+    }
 
     const deliverable = await prisma.deliverable.create({
-      data: { orderId, fileName, fileUrl },
+      data: {
+        orderId,
+        fileName,
+        fileUrl,
+        category: category || "Umum",
+        description: description || null,
+      },
     });
 
     return NextResponse.json({ deliverable });

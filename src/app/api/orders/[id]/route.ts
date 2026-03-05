@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/db";
+import { isValidTransition } from "@/lib/order-status";
 
 export async function GET(
   request: Request,
@@ -13,13 +14,17 @@ export async function GET(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const user = session.user as { id: string; role: string };
     const { id } = await params;
+
     const order = await prisma.order.findUnique({
       where: { id },
       include: {
         payment: true,
         user: { select: { name: true, email: true } },
         deliverables: true,
+        scopeItems: { orderBy: { sortOrder: "asc" } },
+        revisionRequests: { orderBy: { createdAt: "desc" } },
         messages: {
           include: { sender: { select: { name: true, role: true } } },
           orderBy: { createdAt: "asc" },
@@ -29,6 +34,11 @@ export async function GET(
 
     if (!order) {
       return NextResponse.json({ error: "Order tidak ditemukan" }, { status: 404 });
+    }
+
+    // Ownership check: hanya pemilik order atau admin yang boleh lihat
+    if (user.role !== "ADMIN" && order.userId !== user.id) {
+      return NextResponse.json({ error: "Akses ditolak" }, { status: 403 });
     }
 
     return NextResponse.json({ order });
@@ -47,13 +57,67 @@ export async function PATCH(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
+    const user = session.user as { id: string; role: string };
+
+    // Hanya ADMIN yang boleh update order
+    if (user.role !== "ADMIN") {
+      return NextResponse.json({ error: "Hanya admin yang dapat mengubah order" }, { status: 403 });
+    }
+
     const { id } = await params;
     const body = await request.json();
 
+    // Cek order ada
+    const existingOrder = await prisma.order.findUnique({ where: { id } });
+    if (!existingOrder) {
+      return NextResponse.json({ error: "Order tidak ditemukan" }, { status: 404 });
+    }
+
+    // Whitelist field — hanya field tertentu yang boleh diupdate
+    const allowedData: Record<string, unknown> = {};
+    if (body.status) {
+      if (!isValidTransition(existingOrder.status, body.status)) {
+        return NextResponse.json(
+          { error: `Transisi status ${existingOrder.status} → ${body.status} tidak valid` },
+          { status: 400 }
+        );
+      }
+      allowedData.status = body.status;
+    }
+
+    if (Object.keys(allowedData).length === 0) {
+      return NextResponse.json({ error: "Tidak ada perubahan valid" }, { status: 400 });
+    }
+
     const order = await prisma.order.update({
       where: { id },
-      data: body,
+      data: allowedData,
     });
+
+    // Handle revision lifecycle
+    if (body.status === "IN_PROGRESS" && existingOrder.status === "REVISION") {
+      await prisma.order.update({
+        where: { id },
+        data: { revisionCount: { increment: 1 } },
+      });
+      const latestRevision = await prisma.revisionRequest.findFirst({
+        where: { orderId: id, status: "PENDING" },
+        orderBy: { createdAt: "desc" },
+      });
+      if (latestRevision) {
+        await prisma.revisionRequest.update({
+          where: { id: latestRevision.id },
+          data: { status: "IN_PROGRESS" },
+        });
+      }
+    }
+
+    if (body.status === "REVIEW" && existingOrder.status === "IN_PROGRESS") {
+      await prisma.revisionRequest.updateMany({
+        where: { orderId: id, status: "IN_PROGRESS" },
+        data: { status: "RESOLVED", resolvedAt: new Date() },
+      });
+    }
 
     return NextResponse.json({ order });
   } catch {

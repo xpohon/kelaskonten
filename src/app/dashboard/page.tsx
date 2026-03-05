@@ -18,6 +18,7 @@ interface Order {
 
 const statusLabels: Record<string, { label: string; color: string }> = {
   PENDING_PAYMENT: { label: "Menunggu Pembayaran", color: "text-yellow-400 bg-yellow-400/10" },
+  SCOPE_REVIEW: { label: "Menunggu Persetujuan Scope", color: "text-cyan-400 bg-cyan-400/10" },
   IN_PROGRESS: { label: "Sedang Dikerjakan", color: "text-blue-400 bg-blue-400/10" },
   REVIEW: { label: "Menunggu Review", color: "text-purple-400 bg-purple-400/10" },
   REVISION: { label: "Revisi", color: "text-orange-400 bg-orange-400/10" },

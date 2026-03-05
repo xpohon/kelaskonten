@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import crypto from "crypto";
 import Anthropic from "@anthropic-ai/sdk";
 import { prisma } from "@/lib/db";
 import { sendArticleNotification } from "@/lib/email";
@@ -79,9 +80,16 @@ Output HANYA JSON, tanpa teks tambahan sebelum atau sesudah JSON.`;
 }
 
 export async function GET(request: Request) {
-  // Verify CRON_SECRET
+  // Verify CRON_SECRET (timing-safe)
   const authHeader = request.headers.get("authorization");
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  const cronSecret = process.env.CRON_SECRET;
+  if (!cronSecret || !authHeader) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
+  const provided = authHeader.replace("Bearer ", "");
+  const expectedBuf = Buffer.from(cronSecret);
+  const providedBuf = Buffer.from(provided);
+  if (expectedBuf.length !== providedBuf.length || !crypto.timingSafeEqual(expectedBuf, providedBuf)) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 

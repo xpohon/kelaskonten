@@ -22,6 +22,8 @@ export default function AdminDashboard() {
   const router = useRouter();
   const [orders, setOrders] = useState<Order[]>([]);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
+  const [simulating, setSimulating] = useState(false);
+  const [simResult, setSimResult] = useState<{ total: number; completed: number } | null>(null);
 
   useEffect(() => {
     if (status === "unauthenticated") router.push("/masuk");
@@ -54,9 +56,37 @@ export default function AdminDashboard() {
     .reduce((sum, o) => sum + o.price, 0);
   const activeOrders = orders.filter((o) => o.status === "IN_PROGRESS").length;
   const pendingOrders = orders.filter((o) => o.status === "PENDING_PAYMENT").length;
+  const revisionOrders = orders.filter((o) => o.status === "REVISION").length;
+
+  const runSimulation = async (skipAI = false) => {
+    if (!window.confirm(`Jalankan simulasi 9 order end-to-end${skipAI ? " (tanpa AI)" : " dengan AI"}? Ini akan membuat order baru untuk demo user.`)) return;
+    setSimulating(true);
+    setSimResult(null);
+    try {
+      const res = await fetch("/api/admin/simulation", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ skipAI }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        setSimResult({ total: data.total, completed: data.completed });
+        // Refresh orders
+        const ordersRes = await fetch("/api/orders");
+        const ordersData = await ordersRes.json();
+        setOrders(ordersData.orders || []);
+      } else {
+        alert("Simulasi gagal: " + (data.error || "Unknown error"));
+      }
+    } catch (err) {
+      alert("Simulasi error: " + String(err));
+    }
+    setSimulating(false);
+  };
 
   const statusOptions = [
     "PENDING_PAYMENT",
+    "SCOPE_REVIEW",
     "IN_PROGRESS",
     "REVIEW",
     "REVISION",
@@ -77,11 +107,24 @@ export default function AdminDashboard() {
             </h1>
             <div className="flex items-center gap-3">
               <Link
+                href="/admin/packages"
+                className="px-4 py-2.5 text-sm text-neon border border-neon/30 rounded-xl hover:bg-neon/10 transition-colors font-medium"
+              >
+                Kelola Paket
+              </Link>
+              <Link
                 href="/admin/blog"
                 className="px-4 py-2.5 text-sm text-neon border border-neon/30 rounded-xl hover:bg-neon/10 transition-colors font-medium"
               >
                 Kelola Blog
               </Link>
+              <button
+                onClick={() => runSimulation(false)}
+                disabled={simulating}
+                className="px-4 py-2.5 text-sm text-purple-400 border border-purple-400/30 rounded-xl hover:bg-purple-400/10 transition-colors font-medium disabled:opacity-50"
+              >
+                {simulating ? "Simulasi..." : "Simulasi + AI"}
+              </button>
               <button
                 onClick={() => signOut({ callbackUrl: "/" })}
                 className="px-4 py-2.5 text-sm text-muted border border-card-border rounded-xl hover:text-red-400 hover:border-red-400/50 transition-colors"
@@ -91,8 +134,18 @@ export default function AdminDashboard() {
             </div>
           </div>
 
+          {/* Simulation result banner */}
+          {simResult && (
+            <div className="mb-6 p-4 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-between">
+              <p className="text-sm text-purple-300">
+                Simulasi selesai: {simResult.completed}/{simResult.total} order berhasil diproses end-to-end.
+              </p>
+              <button onClick={() => setSimResult(null)} className="text-xs text-muted hover:text-foreground">&times;</button>
+            </div>
+          )}
+
           {/* Stats */}
-          <div className="grid grid-cols-1 sm:grid-cols-4 gap-4 mb-8">
+          <div className="grid grid-cols-1 sm:grid-cols-5 gap-4 mb-8">
             <div className="p-5 rounded-xl bg-card-bg border border-card-border">
               <p className="text-sm text-muted">Total Revenue</p>
               <p className="text-2xl font-heading font-bold text-neon mt-1">
@@ -106,6 +159,10 @@ export default function AdminDashboard() {
             <div className="p-5 rounded-xl bg-card-bg border border-card-border">
               <p className="text-sm text-muted">Sedang Dikerjakan</p>
               <p className="text-2xl font-heading font-bold mt-1">{activeOrders}</p>
+            </div>
+            <div className="p-5 rounded-xl bg-card-bg border border-card-border">
+              <p className="text-sm text-muted">Butuh Revisi</p>
+              <p className="text-2xl font-heading font-bold mt-1 text-orange-400">{revisionOrders}</p>
             </div>
             <div className="p-5 rounded-xl bg-card-bg border border-card-border">
               <p className="text-sm text-muted">Menunggu Bayar</p>

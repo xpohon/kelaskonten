@@ -1,53 +1,70 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import Footer from "@/components/layout/Footer";
 
-const services = [
-  {
-    type: "SEO",
-    name: "SEO & Backlink Building",
-    packages: [
-      { name: "Basic", price: 500000, desc: "5 keyword, audit on-page, laporan bulanan" },
-      { name: "Pro", price: 1500000, desc: "15 keyword, on+off page, backlink, laporan mingguan" },
-      { name: "Enterprise", price: 3500000, desc: "Unlimited keyword, full strategy, dedicated manager" },
-    ],
-  },
-  {
-    type: "CONTENT",
-    name: "Penulisan Artikel & Konten",
-    packages: [
-      { name: "Starter", price: 150000, desc: "1 artikel 500 kata, SEO-friendly, 1 revisi" },
-      { name: "Growth", price: 500000, desc: "5 artikel 800 kata, riset keyword, 2 revisi" },
-      { name: "Bulanan", price: 1500000, desc: "20 artikel/bulan, editorial calendar, unlimited revisi" },
-    ],
-  },
-  {
-    type: "COPYWRITING",
-    name: "Copywriting & Konten Sosmed",
-    packages: [
-      { name: "Basic", price: 200000, desc: "10 caption sosmed, 1 platform" },
-      { name: "Pro", price: 750000, desc: "30 caption + 3 email marketing + 1 iklan" },
-      { name: "Brand Voice", price: 2000000, desc: "Brand guideline + 60 caption + strategi konten" },
-    ],
-  },
-];
+interface PackageData {
+  id: string;
+  serviceType: string;
+  name: string;
+  price: number;
+  description: string;
+}
+
+interface ServiceGroup {
+  type: string;
+  label: string;
+  packages: PackageData[];
+}
+
+const SERVICE_LABELS: Record<string, string> = {
+  SEO: "SEO & Backlink Building",
+  CONTENT: "Penulisan Artikel & Konten",
+  COPYWRITING: "Copywriting & Konten Sosmed",
+};
 
 export default function OrderPage() {
   const { data: session } = useSession();
   const router = useRouter();
   const [step, setStep] = useState(1);
+  const [services, setServices] = useState<ServiceGroup[]>([]);
+  const [loadingPackages, setLoadingPackages] = useState(true);
   const [selectedService, setSelectedService] = useState<string | null>(null);
-  const [selectedPackage, setSelectedPackage] = useState<{ name: string; price: number; desc: string } | null>(null);
+  const [selectedPackage, setSelectedPackage] = useState<PackageData | null>(null);
   const [brief, setBrief] = useState("");
   const [targetAudience, setTargetAudience] = useState("");
   const [deadline, setDeadline] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  // Fetch packages dari database
+  useEffect(() => {
+    fetch("/api/packages")
+      .then((r) => r.json())
+      .then((data) => {
+        const packages: PackageData[] = data.packages || [];
+        // Group by serviceType
+        const grouped: Record<string, PackageData[]> = {};
+        for (const pkg of packages) {
+          if (!grouped[pkg.serviceType]) grouped[pkg.serviceType] = [];
+          grouped[pkg.serviceType].push(pkg);
+        }
+        const serviceGroups: ServiceGroup[] = Object.entries(grouped).map(
+          ([type, pkgs]) => ({
+            type,
+            label: SERVICE_LABELS[type] || type,
+            packages: pkgs,
+          })
+        );
+        setServices(serviceGroups);
+      })
+      .catch(() => setError("Gagal memuat paket layanan"))
+      .finally(() => setLoadingPackages(false));
+  }, []);
 
   const handleSubmit = async () => {
     if (!session) {
@@ -64,7 +81,6 @@ export default function OrderPage() {
         body: JSON.stringify({
           serviceType: selectedService,
           packageName: selectedPackage?.name,
-          price: selectedPackage?.price,
           brief,
           targetAudience,
           deadline: deadline || null,
@@ -136,44 +152,56 @@ export default function OrderPage() {
               {step === 1 && (
                 <div className="space-y-6">
                   <h2 className="text-xl font-heading font-bold">Pilih Layanan & Paket</h2>
-                  {services.map((service) => (
-                    <div key={service.type}>
-                      <button
-                        onClick={() => {
-                          setSelectedService(service.type);
-                          setSelectedPackage(null);
-                        }}
-                        className={`w-full text-left p-4 rounded-xl border transition-all ${
-                          selectedService === service.type
-                            ? "border-neon bg-neon/5"
-                            : "border-card-border bg-card-bg hover:border-neon/30"
-                        }`}
-                      >
-                        <span className="font-semibold">{service.name}</span>
-                      </button>
-                      {selectedService === service.type && (
-                        <div className="mt-3 grid sm:grid-cols-3 gap-3 pl-4">
-                          {service.packages.map((pkg) => (
-                            <button
-                              key={pkg.name}
-                              onClick={() => setSelectedPackage(pkg)}
-                              className={`text-left p-4 rounded-xl border transition-all ${
-                                selectedPackage?.name === pkg.name
-                                  ? "border-neon bg-neon/5"
-                                  : "border-card-border bg-surface hover:border-neon/30"
-                              }`}
-                            >
-                              <span className="block font-semibold text-sm">{pkg.name}</span>
-                              <span className="block text-neon font-bold mt-1">
-                                Rp {pkg.price.toLocaleString("id-ID")}
-                              </span>
-                              <span className="block text-xs text-muted mt-1">{pkg.desc}</span>
-                            </button>
-                          ))}
-                        </div>
-                      )}
+
+                  {loadingPackages ? (
+                    <div className="text-center py-12 text-muted">
+                      <div className="inline-block w-6 h-6 border-2 border-neon/30 border-t-neon rounded-full animate-spin mb-3" />
+                      <p className="text-sm">Memuat paket layanan...</p>
                     </div>
-                  ))}
+                  ) : services.length === 0 ? (
+                    <div className="text-center py-12 text-muted">
+                      <p className="text-sm">Belum ada paket layanan tersedia.</p>
+                    </div>
+                  ) : (
+                    services.map((service) => (
+                      <div key={service.type}>
+                        <button
+                          onClick={() => {
+                            setSelectedService(service.type);
+                            setSelectedPackage(null);
+                          }}
+                          className={`w-full text-left p-4 rounded-xl border transition-all ${
+                            selectedService === service.type
+                              ? "border-neon bg-neon/5"
+                              : "border-card-border bg-card-bg hover:border-neon/30"
+                          }`}
+                        >
+                          <span className="font-semibold">{service.label}</span>
+                        </button>
+                        {selectedService === service.type && (
+                          <div className="mt-3 grid sm:grid-cols-3 gap-3 pl-4">
+                            {service.packages.map((pkg) => (
+                              <button
+                                key={pkg.id}
+                                onClick={() => setSelectedPackage(pkg)}
+                                className={`text-left p-4 rounded-xl border transition-all ${
+                                  selectedPackage?.id === pkg.id
+                                    ? "border-neon bg-neon/5"
+                                    : "border-card-border bg-surface hover:border-neon/30"
+                                }`}
+                              >
+                                <span className="block font-semibold text-sm">{pkg.name}</span>
+                                <span className="block text-neon font-bold mt-1">
+                                  Rp {pkg.price.toLocaleString("id-ID")}
+                                </span>
+                                <span className="block text-xs text-muted mt-1">{pkg.description}</span>
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))
+                  )}
                   <button
                     onClick={() => selectedPackage && setStep(2)}
                     disabled={!selectedPackage}
@@ -258,7 +286,7 @@ export default function OrderPage() {
                   <div className="p-6 rounded-xl bg-card-bg border border-card-border space-y-3">
                     <div className="flex justify-between text-sm">
                       <span className="text-muted">Layanan</span>
-                      <span className="font-medium">{currentService?.name}</span>
+                      <span className="font-medium">{currentService?.label}</span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted">Paket</span>
@@ -266,7 +294,7 @@ export default function OrderPage() {
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-muted">Detail</span>
-                      <span className="font-medium text-right max-w-[200px]">{selectedPackage?.desc}</span>
+                      <span className="font-medium text-right max-w-[200px]">{selectedPackage?.description}</span>
                     </div>
                     {brief && (
                       <div className="pt-3 border-t border-card-border">
@@ -314,7 +342,7 @@ export default function OrderPage() {
                   <div className="space-y-3 text-sm">
                     <div className="flex justify-between">
                       <span className="text-muted">Layanan</span>
-                      <span>{currentService?.name}</span>
+                      <span>{currentService?.label}</span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-muted">Paket</span>

@@ -1,8 +1,28 @@
 import { NextResponse } from "next/server";
+import crypto from "crypto";
 import { prisma } from "@/lib/db";
+import { rateLimit } from "@/lib/rate-limit";
 
 export async function POST(request: Request) {
   try {
+    // Rate limit
+    const ip = request.headers.get("x-forwarded-for") || "unknown";
+    const rl = rateLimit(`webhook:${ip}`, { windowMs: 60_000, maxRequests: 10 });
+    if (!rl.success) {
+      return NextResponse.json({ error: "Too many requests" }, { status: 429 });
+    }
+
+    // Verify webhook secret (timing-safe)
+    const webhookSecret = process.env.WEBHOOK_SECRET;
+    if (webhookSecret) {
+      const provided = request.headers.get("x-webhook-secret") || "";
+      const expected = Buffer.from(webhookSecret);
+      const actual = Buffer.from(provided);
+      if (expected.length !== actual.length || !crypto.timingSafeEqual(expected, actual)) {
+        return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+      }
+    }
+
     const body = await request.json();
     const { order_id, transaction_status, payment_type } = body;
 
@@ -44,7 +64,7 @@ export async function POST(request: Request) {
     if (status === "PAID") {
       await prisma.order.update({
         where: { id: payment.orderId },
-        data: { status: "IN_PROGRESS" },
+        data: { status: "SCOPE_REVIEW" },
       });
     }
 

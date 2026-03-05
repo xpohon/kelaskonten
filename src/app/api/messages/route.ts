@@ -10,14 +10,33 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const userId = (session.user as { id: string }).id;
+    const user = session.user as { id: string; role: string };
     const { orderId, content } = await request.json();
+
+    if (!orderId || !content?.trim()) {
+      return NextResponse.json({ error: "Order ID dan pesan harus diisi" }, { status: 400 });
+    }
+
+    // Cek order ada dan user punya akses
+    const order = await prisma.order.findUnique({
+      where: { id: orderId },
+      select: { userId: true },
+    });
+
+    if (!order) {
+      return NextResponse.json({ error: "Order tidak ditemukan" }, { status: 404 });
+    }
+
+    // Hanya pemilik order atau admin yang boleh kirim pesan
+    if (user.role !== "ADMIN" && order.userId !== user.id) {
+      return NextResponse.json({ error: "Akses ditolak" }, { status: 403 });
+    }
 
     const message = await prisma.message.create({
       data: {
         orderId,
-        senderId: userId,
-        content,
+        senderId: user.id,
+        content: content.trim(),
       },
     });
 

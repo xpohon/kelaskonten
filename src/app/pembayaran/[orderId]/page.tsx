@@ -85,7 +85,7 @@ export default function PaymentPage() {
               </div>
               <h2 className="text-2xl font-heading font-bold mb-2">Pembayaran Berhasil!</h2>
               <p className="text-muted text-sm">
-                Order Anda sedang diproses. Mengalihkan ke dashboard...
+                Admin akan menyiapkan scope pekerjaan untuk Anda review. Mengalihkan ke dashboard...
               </p>
             </div>
           ) : (
