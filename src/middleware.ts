@@ -17,7 +17,7 @@ export function middleware(request: NextRequest) {
     request.nextUrl.pathname === "/api/auth/callback/credentials" &&
     request.method === "POST"
   ) {
-    const ip = request.headers.get("x-forwarded-for") || request.ip || "unknown";
+    const ip = request.headers.get("x-forwarded-for") || "unknown";
     const key = `login:${ip}`;
     const now = Date.now();
     const entry = loginAttempts.get(key);
