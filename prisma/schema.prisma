@@ -131,6 +131,8 @@ model Article {
   publishedAt    DateTime  @default(now())
   seoTitle       String?
   seoDescription String?
+  status         String    @default("PUBLISHED")
+  generatedByAI  Boolean   @default(false)
   createdAt      DateTime  @default(now())
   updatedAt      DateTime  @updatedAt
 }

@@ -21,6 +21,8 @@ interface Article {
   content: string;
   seoTitle: string | null;
   seoDescription: string | null;
+  status: string;
+  generatedByAI: boolean;
   createdAt: string;
 }
 
@@ -47,6 +49,7 @@ export default function BlogAdminPage() {
   const [form, setForm] = useState(emptyForm);
   const [search, setSearch] = useState("");
   const [filterCat, setFilterCat] = useState("Semua");
+  const [filterStatus, setFilterStatus] = useState("Semua");
   const [saving, setSaving] = useState(false);
   const [uploading, setUploading] = useState(false);
   const [uploadError, setUploadError] = useState<string | null>(null);
@@ -110,6 +113,16 @@ export default function BlogAdminPage() {
     if (!window.confirm("Yakin ingin menghapus artikel ini?")) return;
     await fetch(`/api/admin/articles/${id}`, { method: "DELETE" });
     fetchArticles();
+  };
+
+  const handleApprove = async (id: string) => {
+    if (!window.confirm("Setujui dan publikasikan artikel ini?")) return;
+    const res = await fetch(`/api/admin/articles/${id}/approve`, {
+      method: "POST",
+    });
+    if (res.ok) {
+      fetchArticles();
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -212,12 +225,15 @@ export default function BlogAdminPage() {
     }
   };
 
+  const draftCount = articles.filter((a) => a.status === "DRAFT").length;
+
   const filteredArticles = articles.filter((a) => {
     const matchSearch =
       a.title.toLowerCase().includes(search.toLowerCase()) ||
       a.excerpt.toLowerCase().includes(search.toLowerCase());
     const matchCat = filterCat === "Semua" || a.category === filterCat;
-    return matchSearch && matchCat;
+    const matchStatus = filterStatus === "Semua" || a.status === filterStatus;
+    return matchSearch && matchCat && matchStatus;
   });
 
   if (status === "loading") return null;
@@ -250,6 +266,24 @@ export default function BlogAdminPage() {
                 </button>
               </div>
 
+              {/* Draft Notification Banner */}
+              {draftCount > 0 && (
+                <div className="mb-6 p-4 rounded-xl bg-yellow-500/10 border border-yellow-500/20 flex items-center gap-3">
+                  <svg className="w-5 h-5 text-yellow-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                      d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                  </svg>
+                  <div>
+                    <p className="text-sm font-medium text-yellow-400">
+                      {draftCount} artikel menunggu review
+                    </p>
+                    <p className="text-xs text-muted mt-0.5">
+                      Artikel AI-generated perlu disetujui sebelum dipublikasikan.
+                    </p>
+                  </div>
+                </div>
+              )}
+
               {/* Search & Filter */}
               <div className="flex flex-col sm:flex-row gap-4 mb-6">
                 <input
@@ -275,6 +309,25 @@ export default function BlogAdminPage() {
                 </div>
               </div>
 
+              {/* Status Filter */}
+              <div className="flex gap-2 mb-6">
+                {["Semua", "DRAFT", "PUBLISHED"].map((st) => (
+                  <button
+                    key={st}
+                    onClick={() => setFilterStatus(st)}
+                    className={`px-3 py-1.5 text-xs rounded-full border transition-colors ${
+                      filterStatus === st
+                        ? st === "DRAFT"
+                          ? "bg-yellow-500/10 text-yellow-400 border-yellow-500/20 font-semibold"
+                          : "bg-neon text-[#0a0a0f] border-neon font-semibold"
+                        : "border-card-border text-muted hover:border-neon/50"
+                    }`}
+                  >
+                    {st === "Semua" ? "Semua Status" : st === "DRAFT" ? `Draft (${articles.filter(a => a.status === "DRAFT").length})` : `Published (${articles.filter(a => a.status === "PUBLISHED").length})`}
+                  </button>
+                ))}
+              </div>
+
               {/* Table */}
               <div className="rounded-2xl bg-card-bg border border-card-border overflow-hidden">
                 <div className="overflow-x-auto">
@@ -282,8 +335,8 @@ export default function BlogAdminPage() {
                     <thead className="bg-surface text-xs text-muted uppercase tracking-wider">
                       <tr>
                         <th className="px-5 py-3 text-left">Judul</th>
+                        <th className="px-5 py-3 text-left">Status</th>
                         <th className="px-5 py-3 text-left">Kategori</th>
-                        <th className="px-5 py-3 text-left">Penulis</th>
                         <th className="px-5 py-3 text-left">Tanggal</th>
                         <th className="px-5 py-3 text-left">Views</th>
                         <th className="px-5 py-3 text-left">Aksi</th>
@@ -291,23 +344,48 @@ export default function BlogAdminPage() {
                     </thead>
                     <tbody className="divide-y divide-card-border">
                       {filteredArticles.map((article) => (
-                        <tr key={article.id} className="hover:bg-surface/50">
+                        <tr key={article.id} className={`hover:bg-surface/50 ${article.status === "DRAFT" ? "bg-yellow-500/[0.03]" : ""}`}>
                           <td className="px-5 py-3">
                             <p className="text-sm font-medium line-clamp-1">{article.title}</p>
                             <p className="text-xs text-muted line-clamp-1">{article.excerpt}</p>
+                          </td>
+                          <td className="px-5 py-3">
+                            <div className="flex flex-col gap-1">
+                              {article.status === "DRAFT" ? (
+                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-yellow-500/10 text-yellow-400 border border-yellow-500/20 w-fit">
+                                  Draft
+                                </span>
+                              ) : (
+                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-neon/10 text-neon border border-neon/20 w-fit">
+                                  Published
+                                </span>
+                              )}
+                              {article.generatedByAI && (
+                                <span className="text-[10px] px-2 py-0.5 rounded-full bg-purple/10 text-purple border border-purple/20 w-fit">
+                                  AI
+                                </span>
+                              )}
+                            </div>
                           </td>
                           <td className="px-5 py-3">
                             <span className="text-xs px-2 py-1 rounded-full bg-purple/10 text-purple border border-purple/20">
                               {article.category}
                             </span>
                           </td>
-                          <td className="px-5 py-3 text-sm">{article.author}</td>
                           <td className="px-5 py-3 text-xs text-muted">
-                            {new Date(article.publishedAt).toLocaleDateString("id-ID")}
+                            {new Date(article.createdAt).toLocaleDateString("id-ID")}
                           </td>
                           <td className="px-5 py-3 text-sm">{article.views}</td>
                           <td className="px-5 py-3">
                             <div className="flex items-center gap-2">
+                              {article.status === "DRAFT" && (
+                                <button
+                                  onClick={() => handleApprove(article.id)}
+                                  className="text-xs text-neon hover:underline font-semibold"
+                                >
+                                  Setujui
+                                </button>
+                              )}
                               <button
                                 onClick={() => handleEdit(article)}
                                 className="text-xs text-neon hover:underline"
@@ -320,13 +398,15 @@ export default function BlogAdminPage() {
                               >
                                 Hapus
                               </button>
-                              <Link
-                                href={`/blog/${article.slug}`}
-                                target="_blank"
-                                className="text-xs text-muted hover:text-foreground"
-                              >
-                                ↗
-                              </Link>
+                              {article.status === "PUBLISHED" && (
+                                <Link
+                                  href={`/blog/${article.slug}`}
+                                  target="_blank"
+                                  className="text-xs text-muted hover:text-foreground"
+                                >
+                                  ↗
+                                </Link>
+                              )}
                             </div>
                           </td>
                         </tr>

@@ -12,7 +12,7 @@ interface Props {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const article = await prisma.article.findUnique({ where: { slug } });
+  const article = await prisma.article.findFirst({ where: { slug, status: "PUBLISHED" } });
   if (!article) return { title: "Artikel Tidak Ditemukan" };
 
   const ogImage = article.coverImage || "/og-image.svg";
@@ -50,7 +50,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function BlogDetailPage({ params }: Props) {
   const { slug } = await params;
-  const article = await prisma.article.findUnique({ where: { slug } });
+  const article = await prisma.article.findFirst({ where: { slug, status: "PUBLISHED" } });
   if (!article) notFound();
 
   // Increment views
@@ -60,7 +60,7 @@ export default async function BlogDetailPage({ params }: Props) {
   });
 
   const relatedArticles = await prisma.article.findMany({
-    where: { category: article.category, slug: { not: slug } },
+    where: { category: article.category, slug: { not: slug }, status: "PUBLISHED" },
     take: 3,
     orderBy: { views: "desc" },
   });

@@ -68,6 +68,8 @@ export async function POST(request: Request) {
         author: author || "Tim KelasKonten",
         seoTitle: seoTitle || null,
         seoDescription: seoDescription || null,
+        status: "PUBLISHED",
+        generatedByAI: false,
       },
     });
 

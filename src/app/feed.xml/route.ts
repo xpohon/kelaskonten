@@ -13,6 +13,7 @@ export async function GET() {
   const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://kelaskonten.id";
 
   const articles = await prisma.article.findMany({
+    where: { status: "PUBLISHED" },
     orderBy: { publishedAt: "desc" },
     take: 20,
   });

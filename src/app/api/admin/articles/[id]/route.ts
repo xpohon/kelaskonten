@@ -49,7 +49,7 @@ export async function PUT(
 
     const { id } = await params;
     const body = await request.json();
-    const { title, content, excerpt, category, coverImage, readTime, author, seoTitle, seoDescription } = body;
+    const { title, content, excerpt, category, coverImage, readTime, author, seoTitle, seoDescription, status } = body;
 
     // Check article exists
     const existing = await prisma.article.findUnique({ where: { id } });
@@ -88,6 +88,10 @@ export async function PUT(
         author: author || existing.author,
         seoTitle: seoTitle ?? existing.seoTitle,
         seoDescription: seoDescription ?? existing.seoDescription,
+        ...(status && { status }),
+        ...(status === "PUBLISHED" && existing.status === "DRAFT" && {
+          publishedAt: new Date(),
+        }),
       },
     });
 
