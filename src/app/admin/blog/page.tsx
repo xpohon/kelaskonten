@@ -171,7 +171,12 @@ export default function BlogAdminPage() {
         excerpt: data.excerpt || prev.excerpt,
         content: data.content || prev.content,
         readTime: data.readTime || prev.readTime,
+        seoTitle: data.title || prev.seoTitle,
+        seoDescription: data.excerpt || prev.seoDescription,
       }));
+
+      // Auto-expand SEO settings so admin can see the filled values
+      setShowSeo(true);
 
       setUploadSuccess(
         `"${data.fileName}" berhasil diproses. Silakan review dan edit sebelum publish.`
