@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { prisma } from "@/lib/db";
+import { sendRevisionRequested } from "@/lib/email";
 
 export async function POST(
   request: Request,
@@ -68,6 +69,17 @@ export async function POST(
         content: `Permintaan revisi #${revisionNumber}: ${feedback.trim()}`,
       },
     });
+
+    // Fire-and-forget email to admin
+    sendRevisionRequested({
+      clientName: user.name || "Klien",
+      serviceType: order.serviceType,
+      packageName: order.packageName,
+      price: order.price,
+      orderId: id,
+      feedback: feedback.trim(),
+      revisionNumber,
+    }).catch(() => {});
 
     return NextResponse.json({ revisionRequest });
   } catch {
